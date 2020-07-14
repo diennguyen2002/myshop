@@ -1,33 +1,28 @@
 import React, {Component} from 'react';
-import {View, Text} from 'react-native';
-import Home from './components/Home';
-import ListProduct from './components/ListProduct';
-import TabNavigator from 'react-native-tab-navigator';
-
+import {View, StyleSheet, Platform} from 'react-native';
+import { Provider } from 'react-redux';
+import store from './src/redux/store';
+import Navigator from './src/components/Navigator';
 
 export default class App extends Component {
-  constructor(props){
-    super(props);
-    this.state={selectedTab:'home'};
-  }
+  
   render(){
     return(
-      <TabNavigator>
-        <TabNavigator.Item
-          selected={this.state.selectedTab === 'home'}
-          title="Home"
-          onPress={() => this.setState({ selectedTab: 'home' })}>
-          <Home />
-        </TabNavigator.Item>
-        <TabNavigator.Item
-          selected={this.state.selectedTab === 'product'}
-          title="Product"
-          onPress={() => this.setState({ selectedTab: 'product' })}>
-          <ListProduct />
-        </TabNavigator.Item>
-      </TabNavigator>
+      <View style={styles.container}>
+        <Provider store={store}>
+          <Navigator />
+        </Provider>
+      </View>
     )
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    marginTop: Platform.OS === 'ios' ? 50 : 0,
+    marginBottom: Platform.OS === 'ios' ? 25 : 0,
+    flex: 1,
+  },
+});
 
 
