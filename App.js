@@ -3,6 +3,7 @@ import {View, StyleSheet, Platform} from 'react-native';
 import { Provider } from 'react-redux';
 import store from './src/redux/store';
 import Navigator from './src/components/Navigator';
+import Search from './src/components/Search';
 
 export default class App extends Component {
   

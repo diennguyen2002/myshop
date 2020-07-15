@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Image, View} from 'react-native';
+import {Image, StyleSheet} from 'react-native';
 import TabNavigator from 'react-native-tab-navigator';
 import Home from './Home';
 import ListProduct from './ListProduct';
@@ -15,7 +15,8 @@ export default class Navigator extends Component {
       <TabNavigator>
         <TabNavigator.Item
           selected={this.state.selectedTab === 'home'}
-          title="Home"
+          title="Tràng chủ"
+          titleStyle={styles.titleTab}
           renderIcon={() => (
             <Image source={require('../../assets/images/home-black.png')} />
           )}
@@ -27,7 +28,8 @@ export default class Navigator extends Component {
         </TabNavigator.Item>
         <TabNavigator.Item
           selected={this.state.selectedTab === 'product'}
-          title="Product"
+          title="Sản phẩm"
+          titleStyle={styles.titleTab}
           renderIcon={() => (
             <Image source={require('../../assets/images/list-black.png')} />
           )}
@@ -39,7 +41,8 @@ export default class Navigator extends Component {
         </TabNavigator.Item>
         <TabNavigator.Item
           selected={this.state.selectedTab === 'cart'}
-          title="Cart"
+          title="Giỏ hàng"
+          titleStyle={styles.titleTab}
           renderIcon={() => (
             <Image source={require('../../assets/images/cart-black.png')} />
           )}
@@ -53,3 +56,9 @@ export default class Navigator extends Component {
     );
   }
 }
+
+const styles = StyleSheet.create({
+  titleTab:{
+    fontSize: 14,
+  }
+});
