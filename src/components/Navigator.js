@@ -4,6 +4,7 @@ import TabNavigator from 'react-native-tab-navigator';
 import Home from './Home';
 import ListProduct from './ListProduct';
 import Cart from './Cart';
+import Setting from './Setting'
 
 export default class Navigator extends Component {
   constructor(props) {
@@ -51,6 +52,19 @@ export default class Navigator extends Component {
           )}
           onPress={() => this.setState({selectedTab: 'cart'})}>
           <Cart />
+        </TabNavigator.Item>
+        <TabNavigator.Item
+          selected={this.state.selectedTab === 'setting'}
+          title="Cài đặt"
+          titleStyle={styles.titleTab}
+          renderIcon={() => (
+            <Image source={require('../../assets/images/setting-black.png')} />
+          )}
+          renderSelectedIcon={() => (
+            <Image source={require('../../assets/images/setting-select.png')} />
+          )}
+          onPress={() => this.setState({selectedTab: 'setting'})}>
+          <Setting />
         </TabNavigator.Item>
       </TabNavigator>
     );

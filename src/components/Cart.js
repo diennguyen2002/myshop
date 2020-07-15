@@ -14,7 +14,7 @@ export default class Cart extends Component {
 const styles = StyleSheet.create({
     wrapper: {
         flex: 1,
-        backgroundColor: "yellow",
+        backgroundColor: "orange",
         justifyContent: 'center',
         alignItems: 'center'
     },

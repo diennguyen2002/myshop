@@ -1,16 +1,11 @@
 import React, { Component } from 'react'
 import { Text, View, StyleSheet } from 'react-native'
-import Search from './Search'
 
-
-export default class Home extends Component {
+export default class Setting extends Component {
     render() {
         return (
             <View style={styles.wrapper}>
-                <View style={styles.headerSection}>
-                    <Search />
-                </View>
-                
+                <Text style={styles.text}> Setting</Text>
             </View>
         )
     }
@@ -19,13 +14,12 @@ export default class Home extends Component {
 const styles = StyleSheet.create({
     wrapper: {
         flex: 1,
+        backgroundColor: "green",
+        justifyContent : "center",
+        alignItems: "center"
     },
     text:{
         fontSize: 40,
         color: 'white',
-    },
-    headerSection:{
-        //flex: 1,
-
     }
 })
