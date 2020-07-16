@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {View, StyleSheet} from 'react-native';
 import Search from './Search';
+import ListCom from './ListCom';
 export default class Listproduct extends Component {
   render() {
     return (
@@ -9,7 +10,7 @@ export default class Listproduct extends Component {
           <Search />
         </View>
         <View style={styles.bodyContainer}>
-
+           <ListCom />
         </View>
       </View>
     );
@@ -24,6 +25,7 @@ const styles = StyleSheet.create({
       flex: 2,
   },
   bodyContainer:{
-      flex: 8
+      flex: 8,
+      marginVertical: 10
   }
 });

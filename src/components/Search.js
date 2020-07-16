@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {SearchBar} from 'react-native-elements';
-import {StyleSheet, TouchableOpacity, Text} from 'react-native';
+import {StyleSheet, TouchableOpacity, Text, View} from 'react-native';
 
 export default class Search extends Component {
   state = {
@@ -18,13 +18,18 @@ export default class Search extends Component {
         <SearchBar
           containerStyle={styles.containerStyle}
           inputContainerStyle={styles.inputContainerStyle}
+          lightTheme={true}
           placeholder="Bạn muốn mua gì?"
           onChangeText={this.updateSearch}
           value={search}
         />
-        <TouchableOpacity style={styles.buttonSearch} onPress={() => console.log(this.state.search)}>
-          <Text style={styles.textSearch}>Tìm</Text>
-        </TouchableOpacity>
+        <View style={styles.containerSearchBtn}>
+          <TouchableOpacity
+            style={styles.buttonSearch}
+            onPress={() => console.log(this.state.search)}>
+            <Text style={styles.textSearch}>Tìm</Text>
+          </TouchableOpacity>
+        </View>
       </>
     );
   }
@@ -32,22 +37,29 @@ export default class Search extends Component {
 
 const styles = StyleSheet.create({
   containerStyle: {
+    marginTop: 5,
+    marginHorizontal: 5,
     backgroundColor: 'white',
   },
   inputContainerStyle: {
     backgroundColor: 'white',
   },
-  buttonSearch:{
+  containerSearchBtn: {
+    flex: 1,
+    alignItems: 'center',
+    marginRight: 5,
+  },
+  buttonSearch: {
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#3498db',
-    padding: 5,
-    marginTop: 5,
-    width: 50,
-    borderRadius:5,
+    padding: 10,
+    marginTop: 10,
+    width: 70,
+    borderRadius: 5,
   },
-  textSearch:{
+  textSearch: {
     color: 'white',
-    fontSize: 15
-  }
+    fontSize: 15,
+  },
 });

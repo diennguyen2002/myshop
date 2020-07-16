@@ -122,18 +122,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderWidth: 1,
     borderRadius: 10,
-    borderColor: 'grey'
+    borderColor: '#3498db'
   },
   image: {
     flex: 3,
     justifyContent: 'center',
     alignItems: 'center',
     height: 120,
-    // borderTopLeftRadius: 10,
-    // borderBottomLeftRadius: 10,
-    // borderWidth: 1,
-    // borderRightWidth: 0,
-    // borderColor: 'grey'
   },
   imgStretch:{
     width: 70,
@@ -143,11 +138,6 @@ const styles = StyleSheet.create({
     flex: 7,
     justifyContent: 'center',
     height: 120,
-    // borderTopRightRadius: 10,
-    // borderBottomRightRadius: 10,
-    // paddingLeft: 10,
-    // borderWidth: 1,
-    // borderColor: 'grey'
   },
   desName:{
     fontSize: 18,
