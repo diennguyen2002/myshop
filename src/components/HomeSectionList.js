@@ -9,7 +9,7 @@ const DATA = [
       {
         "name": "Điện Thoại iPhone 11 64GB", 
         "price": "18.490.000 đ",
-        "img": Images.products.bestSell.sp1
+        "img": require('../../assets/images/sp_chay_1.png')
       },
       {
         "name": "Điện Thoại Samsung Galaxy A11 (32GB/3GB)", 
@@ -28,18 +28,18 @@ const DATA = [
     data: [
       {
         "name": "Điện Thoại iPhone 11 64GB", 
-        "price": "",
-        "img": "../../assets/images/sp_chay_1.png"
+        "price": "18.490.000 đ",
+        "img": Images.products.bestSell.sp1
       },
       {
         "name": "Điện Thoại Samsung Galaxy A11 (32GB/3GB)", 
-        "price": "",
-        "img": "../../assets/images/sp_chay_2.png"
+        "price": "2.750.000 đ",
+        "img": Images.products.bestSell.sp2
       },
       {
         "name": "Điện Thoại Xiaomi Redmi Note 8", 
-        "price": "",
-        "img": "../../assets/images/sp_chay_3.png"
+        "price": "3.190.000 đ",
+        "img": Images.products.bestSell.sp3
       },
     ]
   },
@@ -48,18 +48,18 @@ const DATA = [
     data: [
       {
         "name": "Điện Thoại iPhone 11 64GB", 
-        "price": "",
-        "img": "../../assets/images/sp_chay_1.png"
+        "price": "18.490.000 đ",
+        "img": Images.products.bestSell.sp1
       },
       {
         "name": "Điện Thoại Samsung Galaxy A11 (32GB/3GB)", 
-        "price": "",
-        "img": "../../assets/images/sp_chay_2.png"
+        "price": "2.750.000 đ",
+        "img": Images.products.bestSell.sp2
       },
       {
         "name": "Điện Thoại Xiaomi Redmi Note 8", 
-        "price": "",
-        "img": "../../assets/images/sp_chay_3.png"
+        "price": "3.190.000 đ",
+        "img": Images.products.bestSell.sp3
       },
     ]
   },
@@ -68,18 +68,18 @@ const DATA = [
     data: [
       {
         "name": "Điện Thoại iPhone 11 64GB", 
-        "price": "",
-        "img": "../../assets/images/sp_chay_1.png"
+        "price": "18.490.000 đ",
+        "img": Images.products.bestSell.sp1
       },
       {
         "name": "Điện Thoại Samsung Galaxy A11 (32GB/3GB)", 
-        "price": "",
-        "img": "../../assets/images/sp_chay_2.png"
+        "price": "2.750.000 đ",
+        "img": Images.products.bestSell.sp2
       },
       {
         "name": "Điện Thoại Xiaomi Redmi Note 8", 
-        "price": "",
-        "img": "../../assets/images/sp_chay_3.png"
+        "price": "3.190.000 đ",
+        "img": Images.products.bestSell.sp3
       },
     ]
   },
@@ -120,17 +120,20 @@ const styles = StyleSheet.create({
     marginHorizontal: 5,
     justifyContent: 'center',
     alignItems: 'center',
+    borderWidth: 1,
+    borderRadius: 10,
+    borderColor: 'grey'
   },
   image: {
     flex: 3,
     justifyContent: 'center',
     alignItems: 'center',
     height: 120,
-    borderTopLeftRadius: 10,
-    borderBottomLeftRadius: 10,
-    borderWidth: StyleSheet.hairlineWidth,
-    borderColor: 'grey'
-    
+    // borderTopLeftRadius: 10,
+    // borderBottomLeftRadius: 10,
+    // borderWidth: 1,
+    // borderRightWidth: 0,
+    // borderColor: 'grey'
   },
   imgStretch:{
     width: 70,
@@ -140,11 +143,11 @@ const styles = StyleSheet.create({
     flex: 7,
     justifyContent: 'center',
     height: 120,
-    borderTopRightRadius: 10,
-    borderBottomRightRadius: 10,
-    paddingLeft: 10,
-    borderWidth: StyleSheet.hairlineWidth,
-    borderColor: 'grey'
+    // borderTopRightRadius: 10,
+    // borderBottomRightRadius: 10,
+    // paddingLeft: 10,
+    // borderWidth: 1,
+    // borderColor: 'grey'
   },
   desName:{
     fontSize: 18,
@@ -156,7 +159,7 @@ const styles = StyleSheet.create({
   },
   header: {
     fontSize: 25,
-    color: 'grey',
+    color: '#3498db',
     backgroundColor: '#fff',
   },
 });

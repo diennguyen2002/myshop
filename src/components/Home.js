@@ -23,7 +23,9 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     headerSection:{
-        flex: 2.5
+        flex: 2.5,
+        marginHorizontal: 5,
+        marginTop: 5,
     },
     bodySection:{
         flex: 7.5
