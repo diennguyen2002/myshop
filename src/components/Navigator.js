@@ -50,6 +50,7 @@ export default class Navigator extends Component {
           renderSelectedIcon={() => (
             <Image source={require('../../assets/images/cart-select.png')} />
           )}
+          badgeText={1}
           onPress={() => this.setState({selectedTab: 'cart'})}>
           <Cart />
         </TabNavigator.Item>
