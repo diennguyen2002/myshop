@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text, View, StyleSheet, SectionList, Image} from 'react-native';
+import {Text, View, StyleSheet, SectionList, Image, TouchableOpacity} from 'react-native';
 import Images from '../constants/Images';
 
 const DATA = [
@@ -94,6 +94,9 @@ const Item = ({item}) => {
       <View style={styles.description}>
         <Text style={styles.desName}>{item['name']}</Text>
         <Text style={styles.desPrice}>{item['price']}</Text>
+        <TouchableOpacity style={styles.cartBtn} onPress={()=>console.log('Da them')}>
+          <Text style={styles.cartText}>Thêm vào giỏ hàng</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -146,6 +149,17 @@ const styles = StyleSheet.create({
     fontSize: 22,
     fontWeight: 'bold',
     color: 'red'
+  },
+  cartBtn:{
+    padding: 5,
+    alignItems: 'center',
+    backgroundColor: '#3498db',
+    borderRadius: 5,
+    width: 150,
+  },
+  cartText:{
+    fontSize: 15,
+    color: 'white',
   },
   header: {
     fontSize: 25,

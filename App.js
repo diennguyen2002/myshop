@@ -1,19 +1,18 @@
 import React, {Component} from 'react';
-import {StyleSheet, Platform, SafeAreaView } from 'react-native';
-import { Provider } from 'react-redux';
+import {StyleSheet, Platform, SafeAreaView, Text, View} from 'react-native';
+import {Provider} from 'react-redux';
 import store from './src/redux/store';
-import Navigator from './src/components/Navigator';
+import BottomTabBar from './src/components/BottomTabBar';
 
 export default class App extends Component {
-  
-  render(){
-    return(
+  render() {
+    return (
       <SafeAreaView style={styles.container}>
         <Provider store={store}>
-          <Navigator />
+          <BottomTabBar />
         </Provider>
       </SafeAreaView>
-    )
+    );
   }
 }
 
@@ -24,5 +23,3 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 });
-
-

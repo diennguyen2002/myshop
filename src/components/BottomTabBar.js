@@ -6,7 +6,7 @@ import ListProduct from './ListProduct';
 import Cart from './Cart';
 import Setting from './Setting'
 
-export default class Navigator extends Component {
+export default class BottomTabBar extends Component {
   constructor(props) {
     super(props);
     this.state = {selectedTab: 'home'};
@@ -16,7 +16,7 @@ export default class Navigator extends Component {
       <TabNavigator>
         <TabNavigator.Item
           selected={this.state.selectedTab === 'home'}
-          title="Tràng chủ"
+          title="Trang chủ"
           titleStyle={styles.titleTab}
           renderIcon={() => (
             <Image source={require('../../assets/images/home-black.png')} />

@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {Text, FlatList, TouchableOpacity, StyleSheet, Image, View} from 'react-native';
 import Images from '../constants/Images';
+import { width } from './SwiperCom';
 
 const DATA = [
   {
@@ -45,11 +46,14 @@ const Item = ({item, onPress, style}) => (
   <TouchableOpacity onPress={onPress} style={[styles.item, style]}>
     <View style={styles.image}>
         <Image style={styles.imgStretch} source={item.img} />
-      </View>
-      <View style={styles.description}>
-        <Text style={styles.desName}>{item.name}</Text>
-        <Text style={styles.desPrice}>{item.price}</Text>
-      </View>
+    </View>
+    <View style={styles.description}>
+      <Text style={styles.desName}>{item.name}</Text>
+      <Text style={styles.desPrice}>{item.price}</Text>
+      <TouchableOpacity style={styles.cartBtn} onPress={()=>console.log('Da them')}>
+        <Text style={styles.cartText}>Thêm vào giỏ hàng</Text>
+      </TouchableOpacity>
+    </View>
   </TouchableOpacity>
 );
 
@@ -117,5 +121,16 @@ const styles = StyleSheet.create({
     fontSize: 22,
     fontWeight: 'bold',
     color: 'red'
+  },
+  cartBtn:{
+    padding: 5,
+    alignItems: 'center',
+    backgroundColor: '#3498db',
+    borderRadius: 5,
+    width: 150,
+  },
+  cartText:{
+    fontSize: 15,
+    color: 'white',
   },
 });
