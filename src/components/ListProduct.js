@@ -22,10 +22,10 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   searchContainer:{
-      flex: 2,
+      flex: 1.5,
   },
   bodyContainer:{
-      flex: 8,
-      marginVertical: 10
+      flex: 8.5,
+      marginTop: 10,
   }
 });

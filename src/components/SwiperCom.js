@@ -53,7 +53,7 @@ export const {width, height} = Dimensions.get('window');
 
 const styles = StyleSheet.create({
   image: {
-    height: height * 0.2,
+    height: '100%',
     width,
   },
 });

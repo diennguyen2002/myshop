@@ -47,16 +47,17 @@ const styles = StyleSheet.create({
   containerSearchBtn: {
     flex: 1,
     alignItems: 'center',
-    marginRight: 5,
+    marginHorizontal: 5,
   },
   buttonSearch: {
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#3498db',
     padding: 10,
-    marginTop: 10,
-    width: 70,
-    borderRadius: 5,
+    marginTop: 7,
+    width: '100%',
+    height: 40,
+    borderRadius: 10,
   },
   textSearch: {
     color: 'white',

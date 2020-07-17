@@ -51,7 +51,7 @@ const Item = ({item, onPress, style}) => (
       <Text style={styles.desName}>{item.name}</Text>
       <Text style={styles.desPrice}>{item.price}</Text>
       <TouchableOpacity style={styles.cartBtn} onPress={()=>console.log('Da them')}>
-        <Text style={styles.cartText}>Thêm vào giỏ hàng</Text>
+        <Text style={styles.cartText}>Chọn mua</Text>
       </TouchableOpacity>
     </View>
   </TouchableOpacity>
@@ -97,7 +97,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderWidth: 1,
     borderRadius: 10,
-    borderColor: '#3498db'
+    borderColor: '#3498db',
+    height: 150
   },
   image: {
     flex: 3,
@@ -127,7 +128,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#3498db',
     borderRadius: 5,
-    width: 150,
+    width: 100,
   },
   cartText:{
     fontSize: 15,
