@@ -9,7 +9,9 @@ import {
 } from 'react-native';
 import NumericInput from 'react-native-numeric-input';
 import Images from '../constants/Images';
-import Icon from 'react-native-vector-icons/AntDesign';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import HeaderCom from './HeaderCom'
+import HomeBtn from './HomeBtn'
 
 const DATA = [
   {
@@ -64,6 +66,7 @@ const NumberCom = () => {
       onChange={(value) => setValue(value)}
       editable={false}
       minValue={1}
+      maxValue={5}
       totalWidth={100}
       totalHeight={40}
       step={1}
@@ -88,7 +91,7 @@ const Item = ({item}) => (
           style={styles.delete}
           onPress={() => console.log('deleted')}>
           <Text>
-            <Icon name="delete" size={20} color="grey" />
+            <Icon name="delete" size={23} color="#3498db" />
           </Text>
         </TouchableOpacity>
       </View>
@@ -106,6 +109,11 @@ export default class Cart extends Component {
 
   render() {
     return (
+      <>
+      <HeaderCom 
+          title='Giỏ hàng'
+          com={<HomeBtn />}
+        />
       <View style={styles.container}>
         <View style={styles.cartListContainer}>
           <View>
@@ -127,6 +135,7 @@ export default class Cart extends Component {
           </TouchableOpacity>
         </View>
       </View>
+      </>
     );
   }
 }
@@ -195,7 +204,7 @@ const styles = StyleSheet.create({
     height:45
   },
   paymentText: {
-    fontSize: 25,
+    fontSize: 20,
     color: 'white',
   },
   quantityContainer: {

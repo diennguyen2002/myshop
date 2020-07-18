@@ -1,24 +1,49 @@
-import React, { Component } from 'react'
-import { Text, View, StyleSheet } from 'react-native'
+import React, {Component} from 'react';
+import {View, StyleSheet} from 'react-native';
+import {ListItem, Header} from 'react-native-elements';
+import HeaderCom from './HeaderCom'
+import HomeBtn from './HomeBtn'
+
+const list = [
+  {
+    title: 'Ngôn ngữ',
+    icon: 'language',
+  },
+  {
+    title: 'Liên hệ',
+    icon: 'contacts',
+  },
+  {
+    title: 'Giới thiệu',
+    icon: 'copyright',
+  },
+];
 export default class Setting extends Component {
-    render() {
-        return (
-            <View style={styles.wrapper}>
-                <Text style={styles.text}> Setting</Text>
-            </View>
-        )
-    }
+  render() {
+    return (
+      <>
+        <HeaderCom 
+          title='Giỏ hàng'
+          com={<HomeBtn />}
+        />
+        <View style={styles.wrapper}>
+          {list.map((item, i) => (
+            <ListItem
+              key={i}
+              title={item.title}
+              leftIcon={{name: item.icon}}
+              bottomDivider
+              chevron
+            />
+          ))}
+        </View>
+      </>
+    );
+  }
 }
 
 const styles = StyleSheet.create({
-    wrapper: {
-        flex: 1,
-        backgroundColor: "green",
-        justifyContent : "center",
-        alignItems: "center"
-    },
-    text:{
-        fontSize: 40,
-        color: 'white',
-    }
-})
+  wrapper: {
+    flex: 1,
+  },
+});

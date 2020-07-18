@@ -61,6 +61,6 @@ const styles = StyleSheet.create({
   },
   textSearch: {
     color: 'white',
-    fontSize: 15,
+    fontSize: 20,
   },
 });
