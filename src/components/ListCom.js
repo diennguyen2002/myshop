@@ -1,61 +1,27 @@
 import React, {Component} from 'react';
 import {Text, FlatList, TouchableOpacity, StyleSheet, Image, View} from 'react-native';
-import Images from '../constants/Images';
-import { width } from './SwiperCom';
 
-const DATA = [
-  {
-    "id": '1',
-    "name": "Điện Thoại iPhone 11 64GB", 
-    "price": "18.490.000 đ",
-    "img": Images.products.bestSell.sp1
-  },
-  {
-    "id": '2',
-    "name": "Điện Thoại Samsung Galaxy A11 (32GB/3GB)", 
-    "price": "2.750.000 đ",
-    "img": Images.products.bestSell.sp2
-  },
-  {
-    "id": '3',
-    "name": "Điện Thoại Xiaomi Redmi Note 8", 
-    "price": "3.190.000 đ",
-    "img": Images.products.bestSell.sp3
-  },
-  {
-    "id": '4',
-    "name": "Điện Thoại iPhone 11 64GB", 
-    "price": "18.490.000 đ",
-    "img": Images.products.bestSell.sp1
-  },
-  {
-    "id": '5',
-    "name": "Điện Thoại Samsung Galaxy A11 (32GB/3GB)", 
-    "price": "2.750.000 đ",
-    "img": Images.products.bestSell.sp2
-  },
-  {
-    "id": '6',
-    "name": "Điện Thoại Xiaomi Redmi Note 8", 
-    "price": "3.190.000 đ",
-    "img": Images.products.bestSell.sp3
-  },
-];
+const HOST = 'http://192.168.1.105:3000'
 
-const Item = ({item, onPress, style}) => (
-  <TouchableOpacity onPress={onPress} style={[styles.item, style]}>
-    <View style={styles.image}>
-        <Image style={styles.imgStretch} source={item.img} />
-    </View>
-    <View style={styles.description}>
-      <Text style={styles.desName}>{item.name}</Text>
-      <Text style={styles.desPrice}>{item.price}</Text>
-      <TouchableOpacity style={styles.cartBtn} onPress={()=>console.log('Da them')}>
-        <Text style={styles.cartText}>Chọn mua</Text>
-      </TouchableOpacity>
-    </View>
-  </TouchableOpacity>
-);
+const Item = ({item, onPress, style}) =>{
+  const price = item.price.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.') + 'đ'
+  return (
+    <TouchableOpacity onPress={onPress} style={[styles.item, style]}>
+      <View style={styles.image}>
+          <Image style={styles.imgStretch} source={{
+            uri: HOST+'/'+item.img,
+          }} />
+      </View>
+      <View style={styles.description}>
+        <Text style={styles.desName}>{item.name}</Text>
+        <Text style={styles.desPrice}>{price}</Text>
+        <TouchableOpacity style={styles.cartBtn} onPress={()=>console.log('Da them')}>
+          <Text style={styles.cartText}>Chọn mua</Text>
+        </TouchableOpacity>
+      </View>
+    </TouchableOpacity>
+  );
+} 
 
 export default class ListCom extends Component {
   constructor(props) {
@@ -78,7 +44,7 @@ export default class ListCom extends Component {
   render() {
     return (
       <FlatList
-        data={DATA}
+        data={this.props.data}
         renderItem={this.renderItem}
         keyExtractor={(item) => item.id}
         extraData={this.state.selectedId}
