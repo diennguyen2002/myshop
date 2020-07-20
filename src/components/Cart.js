@@ -10,8 +10,6 @@ import {
 import NumericInput from 'react-native-numeric-input';
 import Images from '../constants/Images';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import HeaderCom from './HeaderCom'
-import HomeBtn from './HomeBtn'
 
 const DATA = [
   {
@@ -109,11 +107,6 @@ export default class Cart extends Component {
 
   render() {
     return (
-      <>
-      <HeaderCom 
-          title='Giỏ hàng'
-          com={<HomeBtn />}
-        />
       <View style={styles.container}>
         <View style={styles.cartListContainer}>
           <View>
@@ -135,7 +128,6 @@ export default class Cart extends Component {
           </TouchableOpacity>
         </View>
       </View>
-      </>
     );
   }
 }

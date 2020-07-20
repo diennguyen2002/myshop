@@ -1,8 +1,6 @@
 import React, {Component} from 'react';
 import {View, StyleSheet} from 'react-native';
-import {ListItem, Header} from 'react-native-elements';
-import HeaderCom from './HeaderCom'
-import HomeBtn from './HomeBtn'
+import {ListItem} from 'react-native-elements';
 
 const list = [
   {
@@ -21,23 +19,17 @@ const list = [
 export default class Setting extends Component {
   render() {
     return (
-      <>
-        <HeaderCom 
-          title='Giỏ hàng'
-          com={<HomeBtn />}
-        />
-        <View style={styles.wrapper}>
-          {list.map((item, i) => (
-            <ListItem
-              key={i}
-              title={item.title}
-              leftIcon={{name: item.icon}}
-              bottomDivider
-              chevron
-            />
-          ))}
-        </View>
-      </>
+      <View style={styles.wrapper}>
+        {list.map((item, i) => (
+          <ListItem
+            key={i}
+            title={item.title}
+            leftIcon={{name: item.icon}}
+            bottomDivider
+            chevron
+          />
+        ))}
+      </View>
     );
   }
 }
