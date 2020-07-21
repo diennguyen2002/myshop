@@ -1,4 +1,5 @@
 import {actionTypes} from './actionTypes';
+import AsyncStorage from '@react-native-community/async-storage';
 
 const HOST = 'http://192.168.1.105:3000'
 
@@ -46,7 +47,39 @@ function fetchTopList() {
   }
 }
 
+storeCart = async (value) => {
+  try {
+    const jsonValue = JSON.stringify(value)
+    await AsyncStorage.setItem('@cart_key', jsonValue)
+  } catch (e) {
+    console.log(e)
+  }
+}
+
+getCart = async () => {
+  try {
+    const jsonValue = await AsyncStorage.getItem('@cart_key')
+    return jsonValue !== null ? JSON.parse(jsonValue) : null;
+  } catch(e) {
+    console.log(e)
+  }
+}
+
+function putCountCart(){
+  return async dispatch => {
+    const cart = await getCart()
+    console.log('cart putCountCart')
+    console.log(cart)
+    const countCart = cart.map(el => el.quantity)
+                          .reduce(((sum, val)=>sum + val))
+    console.log(countCart)
+    dispatch({type: actionTypes.PUT_COUNT_CART, countCart}) 
+  }
+  
+}
+
 export const actionCreators = {
   fetchList,
-  fetchTopList
+  fetchTopList,
+  putCountCart
 };

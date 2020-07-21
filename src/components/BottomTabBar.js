@@ -7,8 +7,10 @@ import Cart from './Cart';
 import Setting from './Setting';
 import HeaderCom from './HeaderCom';
 import HeaderBtn from './HeaderBtn';
+import {connect} from 'react-redux'
+import {actionCreators} from '../redux/actions/actionCreators'
 
-export default class BottomTabBar extends Component {
+class BottomTabBar extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -23,6 +25,9 @@ export default class BottomTabBar extends Component {
 
   goHome = () => this.setState({selectedTab: 'home', title: 'Trang chủ'});
 
+  componentDidMount(){
+    this.props.putCountCart()
+  }  
   render() {
     return (
       <>
@@ -78,7 +83,7 @@ export default class BottomTabBar extends Component {
             renderSelectedIcon={() => (
               <Image source={require('../../assets/images/cart-select.png')} />
             )}
-            badgeText={1}
+            badgeText={this.props.countCart}
             onPress={() =>
               this.setState({selectedTab: 'cart', title: 'Giỏ hàng'})
             }>
@@ -114,3 +119,8 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
 });
+
+const mapStateToProps = function(state){
+  return {countCart: state.countCart}
+}
+export default connect(mapStateToProps, actionCreators)(BottomTabBar)

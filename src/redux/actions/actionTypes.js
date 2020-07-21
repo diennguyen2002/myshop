@@ -1,7 +1,9 @@
 const FETCH_LIST = 'FETCH_LIST'
 const FETCH_TOP_LIST = 'FETCH_TOP_LIST'
+const PUT_COUNT_CART = 'PUT_COUNT_CART'
 
 export const actionTypes = {
     FETCH_LIST,
-    FETCH_TOP_LIST
+    FETCH_TOP_LIST,
+    PUT_COUNT_CART
 }

@@ -8,53 +8,10 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import NumericInput from 'react-native-numeric-input';
-import Images from '../constants/Images';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import AsyncStorage from '@react-native-community/async-storage';
 
-const DATA = [
-  {
-    id: '1',
-    name: 'Điện Thoại iPhone 11 64GB',
-    price: '18.490.000 đ',
-    quantity: 1,
-    img: Images.products.bestSell.sp1,
-  },
-  {
-    id: '2',
-    name: 'Điện Thoại Samsung Galaxy A11 (32GB/3GB)',
-    price: '2.750.000 đ',
-    quantity: 1,
-    img: Images.products.bestSell.sp2,
-  },
-  {
-    id: '3',
-    name: 'Điện Thoại Xiaomi Redmi Note 8',
-    price: '3.190.000 đ',
-    quantity: 1,
-    img: Images.products.bestSell.sp3,
-  },
-  {
-    id: '1',
-    name: 'Điện Thoại iPhone 11 64GB',
-    price: '18.490.000 đ',
-    quantity: 1,
-    img: Images.products.bestSell.sp1,
-  },
-  {
-    id: '2',
-    name: 'Điện Thoại Samsung Galaxy A11 (32GB/3GB)',
-    price: '2.750.000 đ',
-    quantity: 1,
-    img: Images.products.bestSell.sp2,
-  },
-  {
-    id: '3',
-    name: 'Điện Thoại Xiaomi Redmi Note 8',
-    price: '3.190.000 đ',
-    quantity: 1,
-    img: Images.products.bestSell.sp3,
-  },
-];
+const HOST = 'http://192.168.1.105:3000';
 
 const NumberCom = () => {
   const [value, setValue] = useState(1);
@@ -75,35 +32,70 @@ const NumberCom = () => {
   );
 };
 
-const Item = ({item}) => (
-  <View style={styles.item}>
-    <View style={styles.image}>
-      <Image style={styles.imgStretch} source={item.img} />
-    </View>
-    <View style={styles.description}>
-      <Text style={styles.desName}>{item.name}</Text>
-      <Text style={styles.desPrice}>{item.price}</Text>
-      <View style={styles.quantityContainer}>
-        <NumberCom />
-        <TouchableOpacity
-          style={styles.delete}
-          onPress={() => console.log('deleted')}>
-          <Text>
-            <Icon name="delete" size={23} color="#3498db" />
-          </Text>
-        </TouchableOpacity>
+const Item = ({item}) => {
+  const price =
+    item.price.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.') + 'đ';
+  return (
+    <View style={styles.item}>
+      <View style={styles.image}>
+        <Image
+          style={styles.imgStretch}
+          source={{
+            uri: HOST + '/' + item.img,
+          }}
+        />
+      </View>
+      <View style={styles.description}>
+        <Text style={styles.desName}>{item.name}</Text>
+        <Text style={styles.desPrice}>{price}</Text>
+        <View style={styles.quantityContainer}>
+          <NumberCom />
+          <TouchableOpacity
+            style={styles.delete}
+            onPress={() => console.log('deleted')}>
+            <Text>
+              <Icon name="delete" size={23} color="#3498db" />
+            </Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
-  </View>
-);
+  );
+};
 
 export default class Cart extends Component {
   constructor(props) {
     super(props);
+    this.state = {cart: []};
   }
+
   renderItem = ({item}) => {
     return <Item item={item} />;
   };
+
+  storeCart = async (value) => {
+    try {
+      const jsonValue = JSON.stringify(value);
+      await AsyncStorage.setItem('@cart_key', jsonValue);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  getCart = async () => {
+    try {
+      const jsonValue = await AsyncStorage.getItem('@cart_key');
+      return jsonValue !== null ? JSON.parse(jsonValue) : null;
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  async componentDidMount() {
+    const cartStorage = await this.getCart();
+    //console.log(cartStorage);
+    this.setState({cart: cartStorage});
+  }
 
   render() {
     return (
@@ -111,7 +103,7 @@ export default class Cart extends Component {
         <View style={styles.cartListContainer}>
           <View>
             <FlatList
-              data={DATA}
+              data={this.state.cart}
               renderItem={this.renderItem}
               keyExtractor={(item) => item.id}
             />
@@ -193,7 +185,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#3498db',
     borderRadius: 10,
     marginBottom: 5,
-    height:45
+    height: 45,
   },
   paymentText: {
     fontSize: 20,
