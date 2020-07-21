@@ -1,8 +1,10 @@
 import React, {Component} from 'react';
 import {SearchBar} from 'react-native-elements';
 import {StyleSheet, TouchableOpacity, Text, View} from 'react-native';
+import {connect} from 'react-redux'
+import { actionCreators } from '../redux/actions/actionCreators';
 
-export default class Search extends Component {
+class Search extends Component {
   state = {
     search: '',
   };
@@ -11,8 +13,11 @@ export default class Search extends Component {
     this.setState({search});
   };
 
+  clickSearch = () => {
+    this.props.fetchListSearch(this.state.search)
+  }
+
   render() {
-    const {search} = this.state;
     return (
       <>
         <SearchBar
@@ -21,12 +26,12 @@ export default class Search extends Component {
           lightTheme={true}
           placeholder="Bạn muốn mua gì?"
           onChangeText={this.updateSearch}
-          value={search}
+          value={this.state.search}
         />
         <View style={styles.containerSearchBtn}>
           <TouchableOpacity
             style={styles.buttonSearch}
-            onPress={() => console.log(this.state.search)}>
+            onPress={this.clickSearch}>
             <Text style={styles.textSearch}>Tìm</Text>
           </TouchableOpacity>
         </View>
@@ -64,3 +69,5 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
 });
+
+export default connect(null, actionCreators)(Search)

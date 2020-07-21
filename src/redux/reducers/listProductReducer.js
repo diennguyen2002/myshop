@@ -1,6 +1,8 @@
 function listProductsReducer(state = [], action){
     if(action.type === 'FETCH_LIST') {
-        return action.products
+        //console.log(action.products)
+        const products = state.concat(action.products) 
+        return products
     }
     return state;
 }

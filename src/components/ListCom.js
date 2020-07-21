@@ -1,54 +1,83 @@
 import React, {Component} from 'react';
-import {Text, FlatList, TouchableOpacity, StyleSheet, Image, View} from 'react-native';
+import {
+  Text,
+  FlatList,
+  TouchableOpacity,
+  StyleSheet,
+  Image,
+  View,
+  ActivityIndicator,
+  RefreshControl,
+} from 'react-native';
+import {connect} from 'react-redux';
+import {actionCreators} from '../redux/actions/actionCreators';
 
-const HOST = 'http://192.168.1.105:3000'
+const HOST = 'http://192.168.1.105:3000';
 
-const Item = ({item, onPress, style}) =>{
-  const price = item.price.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.') + 'đ'
+const Item = ({item}) => {
+  const price =
+    item.price.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.') + 'đ';
   return (
-    <TouchableOpacity onPress={onPress} style={[styles.item, style]}>
+    <View style={styles.item}>
       <View style={styles.image}>
-          <Image style={styles.imgStretch} source={{
-            uri: HOST+'/'+item.img,
-          }} />
+        <Image
+          style={styles.imgStretch}
+          source={{
+            uri: HOST + '/' + item.img,
+          }}
+        />
       </View>
       <View style={styles.description}>
         <Text style={styles.desName}>{item.name}</Text>
         <Text style={styles.desPrice}>{price}</Text>
-        <TouchableOpacity style={styles.cartBtn} onPress={()=>console.log('Da them')}>
+        <TouchableOpacity
+          style={styles.cartBtn}
+          onPress={() => console.log('Da them')}>
           <Text style={styles.cartText}>Chọn mua</Text>
         </TouchableOpacity>
       </View>
-    </TouchableOpacity>
+    </View>
   );
-} 
+};
 
-export default class ListCom extends Component {
+class ListCom extends Component {
   constructor(props) {
     super(props);
-    this.state = {selectedId: null};
+    this.state = {
+      isRefreshing: false,
+      page: 1,
+    };
   }
   renderItem = ({item}) => {
-    const backgroundColor =
-      item.id === this.state.selectedId ? '' : ''; //#3498db
+    return <Item item={item} />;
+  };
 
-    return (
-      <Item
-        item={item}
-        onPress={() => this.setState({selectedId: item.id})}
-        style={{backgroundColor}}
-      />
+  loadMore = () => {
+    console.log('load more', this.state.page);
+    this.setState({isRefreshing: true, page: this.state.page + 1});
+    //console.log(this.state.page);
+    this.props.fetchList(this.state.page, (st) =>
+      this.setState({isRefreshing: st}),
     );
   };
 
   render() {
     return (
-      <FlatList
-        data={this.props.data}
-        renderItem={this.renderItem}
-        keyExtractor={(item) => item.id}
-        extraData={this.state.selectedId}
-      />
+      <View>
+        <FlatList
+          data={this.props.data}
+          renderItem={this.renderItem}
+          keyExtractor={(item) => item.id}
+          refreshControl={
+            <RefreshControl
+              refreshing={this.state.isRefreshing}
+              //onRefresh={this.onPullRefresh}
+            />
+          }
+          onEndReachedThreshold={0.4}
+          onEndReached={this.loadMore}
+        />
+      </View>
     );
   }
 }
@@ -64,7 +93,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 10,
     borderColor: '#3498db',
-    height: 150
+    height: 150,
   },
   image: {
     flex: 3,
@@ -72,32 +101,38 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     height: 120,
   },
-  imgStretch:{
+  imgStretch: {
     width: 70,
     height: 90,
   },
-  description:{
+  description: {
     flex: 7,
     justifyContent: 'center',
     height: 120,
   },
-  desName:{
+  desName: {
     fontSize: 18,
   },
-  desPrice:{
+  desPrice: {
     fontSize: 22,
     fontWeight: 'bold',
-    color: 'red'
+    color: 'red',
   },
-  cartBtn:{
+  cartBtn: {
     padding: 5,
     alignItems: 'center',
     backgroundColor: '#3498db',
     borderRadius: 5,
     width: 100,
   },
-  cartText:{
+  cartText: {
     fontSize: 15,
     color: 'white',
   },
 });
+
+const mapStateToProps = function (state) {
+  return {products: state.products};
+};
+
+export default connect(null, actionCreators)(ListCom);

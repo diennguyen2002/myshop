@@ -8,7 +8,7 @@ import { actionCreators } from '../redux/actions/actionCreators';
 const HOST = 'http://192.168.1.105:3000'
 class Listproduct extends Component {
   componentDidMount(){
-    this.props.fetchList()
+    this.props.fetchList(0)
   }
   render() {
     return (
