@@ -1,22 +1,40 @@
 import React from 'react';
-import {Text, View, StyleSheet, SectionList, Image, TouchableOpacity} from 'react-native';
+import {
+  Text,
+  View,
+  StyleSheet,
+  SectionList,
+  Image,
+  TouchableOpacity,
+} from 'react-native';
+
+const HOST = 'http://192.168.1.105:3000';
 
 const Item = ({item}) => {
+  const price =
+    item.price.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.') + 'đ';
   return (
     <View style={styles.item}>
       <View style={styles.image}>
-        <Image style={styles.imgStretch} source={item['img']} />
+        <Image
+          style={styles.imgStretch}
+          source={{
+            uri: HOST + '/' + item.img,
+          }}
+        />
       </View>
       <View style={styles.description}>
-        <Text style={styles.desName}>{item['name']}</Text>
-        <Text style={styles.desPrice}>{item['price']}</Text>
-        <TouchableOpacity style={styles.cartBtn} onPress={()=>console.log('Da them')}>
+        <Text style={styles.desName}>{item.name}</Text>
+        <Text style={styles.desPrice}>{price}</Text>
+        <TouchableOpacity
+          style={styles.cartBtn}
+          onPress={() => console.log('Da them')}>
           <Text style={styles.cartText}>Chọn mua</Text>
         </TouchableOpacity>
       </View>
     </View>
   );
-}
+};
 
 const HomeSectionList = ({data}) => {
   return (
@@ -42,7 +60,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 10,
     borderColor: '#3498db',
-    height: 150
+    height: 150,
   },
   image: {
     flex: 3,
@@ -50,31 +68,31 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     height: 120,
   },
-  imgStretch:{
+  imgStretch: {
     width: 70,
     height: 90,
   },
-  description:{
+  description: {
     flex: 7,
     justifyContent: 'center',
     height: 120,
   },
-  desName:{
+  desName: {
     fontSize: 18,
   },
-  desPrice:{
+  desPrice: {
     fontSize: 22,
     fontWeight: 'bold',
-    color: 'red'
+    color: 'red',
   },
-  cartBtn:{
+  cartBtn: {
     padding: 5,
     alignItems: 'center',
     backgroundColor: '#3498db',
     borderRadius: 5,
     width: 95,
   },
-  cartText:{
+  cartText: {
     fontSize: 15,
     color: 'white',
   },
