@@ -10,8 +10,7 @@ import {
 import NumericInput from 'react-native-numeric-input';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import AsyncStorage from '@react-native-community/async-storage';
-
-const HOST = 'https://server-salephone-app.herokuapp.com';
+import AppConfig from '../constants/config';
 
 const NumberCom = ({quantity}) => {
   const [value, setValue] = useState(quantity);
@@ -41,7 +40,7 @@ const Item = ({item}) => {
         <Image
           style={styles.imgStretch}
           source={{
-            uri: HOST + '/' + item.img,
+            uri: AppConfig.HOST + '/' + item.img,
           }}
         />
       </View>
@@ -96,8 +95,8 @@ export default class Cart extends Component {
 
   async componentDidMount() {
     const cartStorage = await this.getCart();
-    console.log('get Cart');
-    console.log(cartStorage);
+    //console.log('get Cart');
+    //console.log(cartStorage);
     const amount = cartStorage
       .map((item) => {
         return item.price * item.quantity;

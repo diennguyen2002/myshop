@@ -9,7 +9,8 @@ export default class HeaderCom extends Component {
           text: this.props.title,
           style: {fontWeight: 'bold', color: '#fff', fontSize: 18},
         }}
-        rightComponent={this.props.com}
+        rightComponent={this.props.rightIcon}
+        leftComponent={this.props.leftIcon}
         containerStyle={{
           backgroundColor: '#3498db',
         }}

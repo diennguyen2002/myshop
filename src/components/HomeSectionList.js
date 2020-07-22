@@ -10,8 +10,7 @@ import {
 import {connect} from 'react-redux';
 import {actionCreators} from '../redux/actions/actionCreators';
 import AsyncStorage from '@react-native-community/async-storage';
-
-const HOST = 'https://server-salephone-app.herokuapp.com';
+import AppConfig from '../constants/config';
 
 const Item = ({item, addCart}) => {
   const price =
@@ -22,7 +21,7 @@ const Item = ({item, addCart}) => {
         <Image
           style={styles.imgStretch}
           source={{
-            uri: HOST + '/' + item.img,
+            uri: AppConfig.HOST + '/' + item.img,
           }}
         />
       </View>
@@ -87,7 +86,8 @@ class HomeSectionList extends Component {
         //console.log(cart)
         await this.storeCart(cart)
       }
-
+      
+      alert('Đã thêm vào giỏ hàng')
       this.props.putCountCart()
     } catch (e) {
       console.log(e)
@@ -158,7 +158,7 @@ const styles = StyleSheet.create({
   header: {
     fontSize: 25,
     color: '#3498db',
-    backgroundColor: '#fff',
+    backgroundColor: '#F2F2F2',
   },
 });
 

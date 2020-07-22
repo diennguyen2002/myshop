@@ -1,11 +1,10 @@
 import {actionTypes} from './actionTypes';
 import AsyncStorage from '@react-native-community/async-storage';
-
-const HOST = 'https://server-salephone-app.herokuapp.com'
+import AppConfig from '../../constants/config';
 
 function fetchList(page = '', cb = null) {
   return (dispatch) => {
-    fetch(HOST + '/list/'+page)
+    fetch(AppConfig.HOST + '/list/'+page)
       .then((response) => response.json())
       .then((json) => {
         //console.log(json.products)
@@ -20,7 +19,7 @@ function fetchList(page = '', cb = null) {
 
 function fetchListSearch(name=''){
   return dispatch => {
-    fetch(HOST + '/list_search/'+name)
+    fetch(AppConfig.HOST + '/list_search/'+name)
       .then((response) => response.json())
       .then((json) => {
         //console.log(json.products)
@@ -35,9 +34,9 @@ function fetchListSearch(name=''){
 function fetchTopList() {
   return dispatch => {
     Promise.all([
-      fetch(HOST + '/list/0').then(response=>response.json()),
-      fetch(HOST + '/list/1').then(response=>response.json()),
-      fetch(HOST + '/list/2').then(response=>response.json()),
+      fetch(AppConfig.HOST + '/list/0').then(response=>response.json()),
+      fetch(AppConfig.HOST + '/list/1').then(response=>response.json()),
+      fetch(AppConfig.HOST + '/list/2').then(response=>response.json()),
     ])
     .then(json=>{
       //console.log(json[0]['products'])

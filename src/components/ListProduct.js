@@ -5,7 +5,6 @@ import ListCom from './ListCom';
 import { connect } from 'react-redux';
 import { actionCreators } from '../redux/actions/actionCreators';
 
-const HOST = 'https://server-salephone-app.herokuapp.com'
 class Listproduct extends Component {
   componentDidMount(){
     this.props.fetchList(0)

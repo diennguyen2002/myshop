@@ -21,7 +21,8 @@ class BottomTabBar extends Component {
   }
 
   login = () => {
-    console.log('login');
+    const {navigation} = this.props;
+    navigation.navigate('Login');
   };
 
   goHome = () => this.setState({selectedTab: 'home', title: 'Trang chủ'});
@@ -34,7 +35,8 @@ class BottomTabBar extends Component {
       <>
         <HeaderCom
           title={this.state.title}
-          com={
+          leftIcon={null}
+          rightIcon={
             <HeaderBtn
               clickFn={
                 this.state.selectedTab === 'home' ? this.login : this.goHome
@@ -107,7 +109,7 @@ class BottomTabBar extends Component {
             onPress={() =>
               this.setState({selectedTab: 'setting', title: 'Cài đặt'})
             }>
-            <Setting />
+            <Setting navigation={this.props.navigation}/>
           </TabNavigator.Item>
         </TabNavigator>
       </>
