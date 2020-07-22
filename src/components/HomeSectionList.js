@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Component} from 'react';
 import {
   Text,
   View,
@@ -7,10 +7,13 @@ import {
   Image,
   TouchableOpacity,
 } from 'react-native';
+import {connect} from 'react-redux';
+import {actionCreators} from '../redux/actions/actionCreators';
+import AsyncStorage from '@react-native-community/async-storage';
 
-const HOST = 'http://192.168.1.105:3000';
+const HOST = 'https://server-salephone-app.herokuapp.com';
 
-const Item = ({item}) => {
+const Item = ({item, addCart}) => {
   const price =
     item.price.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.') + 'đ';
   return (
@@ -28,7 +31,7 @@ const Item = ({item}) => {
         <Text style={styles.desPrice}>{price}</Text>
         <TouchableOpacity
           style={styles.cartBtn}
-          onPress={() => console.log('Da them')}>
+          onPress={() => addCart(item)}>
           <Text style={styles.cartText}>Chọn mua</Text>
         </TouchableOpacity>
       </View>
@@ -36,18 +39,74 @@ const Item = ({item}) => {
   );
 };
 
-const HomeSectionList = ({data}) => {
-  return (
-    <SectionList
-      sections={data}
-      keyExtractor={(item, index) => item + index}
-      renderItem={({item}) => <Item item={item} />}
-      renderSectionHeader={({section: {title}}) => (
-        <Text style={styles.header}>{title}</Text>
-      )}
-    />
-  );
-};
+class HomeSectionList extends Component {
+  storeCart = async (value) => {
+    try {
+      const jsonValue = JSON.stringify(value)
+      await AsyncStorage.setItem('@cart_key', jsonValue)
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
+  getCart = async () => {
+    try {
+      const jsonValue = await AsyncStorage.getItem('@cart_key')
+      return jsonValue !== null ? JSON.parse(jsonValue) : null;
+    } catch(e) {
+      console.log(e)
+    }
+  }
+
+  addCart = async (value) => {
+    try {
+      const cart = await this.getCart()
+      //console.log('cart hien tai')
+      //console.log(cart)
+      if(cart.length === 0){
+        cart.push(value)
+        //console.log('cart them moi')
+        //console.log(cart)
+        await this.storeCart(cart)
+      } else {
+        let exitst = false
+        cart.forEach((el) => {
+          if(value._id === el._id){
+            exitst = true
+            el.quantity +=1
+            //console.log('cart them sl')
+            return false
+          }
+        })
+
+        if(!exitst){
+          //console.log('cart them moi')
+          cart.push(value)
+        }
+        
+        //console.log(cart)
+        await this.storeCart(cart)
+      }
+
+      this.props.putCountCart()
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
+  render(){
+    return (
+      <SectionList
+        sections={this.props.topList}
+        keyExtractor={(item, index) => item + index}
+        renderItem={({item}) => <Item item={item} addCart={this.addCart}  />}
+        renderSectionHeader={({section: {title}}) => (
+          <Text style={styles.header}>{title}</Text>
+        )}
+      />
+    );
+  }
+}
 
 const styles = StyleSheet.create({
   item: {
@@ -103,4 +162,8 @@ const styles = StyleSheet.create({
   },
 });
 
-export default HomeSectionList;
+const mapStateToProps = function(state){
+  return {topList: state.topList}
+}
+
+export default connect(mapStateToProps, actionCreators)(HomeSectionList)

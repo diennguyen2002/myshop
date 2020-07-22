@@ -1,12 +1,12 @@
 import React, {Component} from 'react';
 import {
-  Text,
   Dimensions,
   Image,
   StyleSheet,
   TouchableOpacity,
 } from 'react-native';
 import SwiperFlatList from 'react-native-swiper-flatlist';
+import ImagesConst from '../constants/ImagesConst'
 
 export default class SwiperCom extends Component {
   render() {
@@ -20,28 +20,28 @@ export default class SwiperCom extends Component {
           onPress={() => console.log(1)}>
           <Image
             style={[styles.image]}
-            source={require('../../assets/images/ad1.png')}
+            source={ImagesConst.ad1}
           />
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => console.log(2)}>
           <Image
             style={[styles.image]}
-            source={require('../../assets/images/ad2.png')}
+            source={ImagesConst.ad2}
           />
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => console.log(3)}>
           <Image
             style={[styles.image]}
-            source={require('../../assets/images/ad3.png')}
+            source={ImagesConst.ad3}
           />
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => console.log(4)}>
           <Image
             style={[styles.image]}
-            source={require('../../assets/images/ad4.png')}
+            source={ImagesConst.ad4}
           />
         </TouchableOpacity>
       </SwiperFlatList>

@@ -14,6 +14,7 @@ class Search extends Component {
   };
 
   clickSearch = () => {
+    //console.log(this.state.search);
     this.props.fetchListSearch(this.state.search)
   }
 

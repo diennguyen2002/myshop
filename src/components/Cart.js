@@ -11,10 +11,10 @@ import NumericInput from 'react-native-numeric-input';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import AsyncStorage from '@react-native-community/async-storage';
 
-const HOST = 'http://192.168.1.105:3000';
+const HOST = 'https://server-salephone-app.herokuapp.com';
 
-const NumberCom = () => {
-  const [value, setValue] = useState(1);
+const NumberCom = ({quantity}) => {
+  const [value, setValue] = useState(quantity);
   return (
     <NumericInput
       value={value}
@@ -49,7 +49,7 @@ const Item = ({item}) => {
         <Text style={styles.desName}>{item.name}</Text>
         <Text style={styles.desPrice}>{price}</Text>
         <View style={styles.quantityContainer}>
-          <NumberCom />
+          <NumberCom quantity={item.quantity} />
           <TouchableOpacity
             style={styles.delete}
             onPress={() => console.log('deleted')}>
@@ -66,7 +66,10 @@ const Item = ({item}) => {
 export default class Cart extends Component {
   constructor(props) {
     super(props);
-    this.state = {cart: []};
+    this.state = {
+      cart: [],
+      amount: 0,
+    };
   }
 
   renderItem = ({item}) => {
@@ -93,13 +96,27 @@ export default class Cart extends Component {
 
   async componentDidMount() {
     const cartStorage = await this.getCart();
+    console.log('get Cart');
+    console.log(cartStorage);
+    const amount = cartStorage
+      .map((item) => {
+        return item.price * item.quantity;
+      })
+      .reduce((sum, val) => sum + val);
+
     //console.log(cartStorage);
-    this.setState({cart: cartStorage});
+    this.setState({cart: cartStorage, amount});
   }
 
   render() {
+    const amount =
+      this.state.amount.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.') +
+      'đ';
     return (
       <View style={styles.container}>
+        {this.state.cart.length == 0 ? (
+          <Text style={styles.notSeclectItemText}>Bạn chưa chọn sản phẩm nào</Text>
+        ) : null}
         <View style={styles.cartListContainer}>
           <View>
             <FlatList
@@ -108,17 +125,21 @@ export default class Cart extends Component {
               keyExtractor={(item) => item.id}
             />
           </View>
-          <View>
-            <Text style={styles.amountText}>Thành tiền: 00.000.000 đ</Text>
+          {this.state.cart.length > 0 ? (
+            <View>
+              <Text style={styles.amountText}>Thành tiền: {amount}</Text>
+            </View>
+          ) : null}
+        </View>
+        {this.state.cart.length > 0 ? (
+          <View style={styles.amountContainer}>
+            <TouchableOpacity
+              style={styles.paymentBtn}
+              onPress={() => console.log('thanh toan')}>
+              <Text style={styles.paymentText}>Thanh toán</Text>
+            </TouchableOpacity>
           </View>
-        </View>
-        <View style={styles.amountContainer}>
-          <TouchableOpacity
-            style={styles.paymentBtn}
-            onPress={() => console.log('thanh toan')}>
-            <Text style={styles.paymentText}>Thanh toán</Text>
-          </TouchableOpacity>
-        </View>
+        ) : null}
       </View>
     );
   }
@@ -127,6 +148,11 @@ export default class Cart extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  notSeclectItemText: {
+    textAlign:'center', 
+    fontSize: 20, 
+    color:'#3498db'
   },
   cartListContainer: {
     flex: 8,
@@ -175,7 +201,6 @@ const styles = StyleSheet.create({
     fontSize: 30,
     color: 'red',
     textAlign: 'center',
-    //marginBottom: 10,
     fontWeight: 'bold',
   },
   paymentBtn: {

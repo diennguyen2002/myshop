@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {StyleSheet, Platform, SafeAreaView, Text, View} from 'react-native';
+import {StyleSheet, Platform, SafeAreaView} from 'react-native';
 import {Provider} from 'react-redux';
 import store from './src/redux/store';
 import BottomTabBar from './src/components/BottomTabBar';

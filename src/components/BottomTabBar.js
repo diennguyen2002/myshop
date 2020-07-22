@@ -9,6 +9,7 @@ import HeaderCom from './HeaderCom';
 import HeaderBtn from './HeaderBtn';
 import {connect} from 'react-redux'
 import {actionCreators} from '../redux/actions/actionCreators'
+import ImagesConst from '../constants/ImagesConst'
 
 class BottomTabBar extends Component {
   constructor(props) {
@@ -48,10 +49,10 @@ class BottomTabBar extends Component {
             title="Trang chủ"
             titleStyle={styles.titleTab}
             renderIcon={() => (
-              <Image source={require('../../assets/images/home-black.png')} />
+              <Image source={ImagesConst.homeBlack} />
             )}
             renderSelectedIcon={() => (
-              <Image source={require('../../assets/images/home-select.png')} />
+              <Image source={ImagesConst.homeSelect} />
             )}
             onPress={() =>
               this.setState({selectedTab: 'home', title: 'Trang chủ'})
@@ -63,10 +64,10 @@ class BottomTabBar extends Component {
             title="Sản phẩm"
             titleStyle={styles.titleTab}
             renderIcon={() => (
-              <Image source={require('../../assets/images/list-black.png')} />
+              <Image source={ImagesConst.listBlack} />
             )}
             renderSelectedIcon={() => (
-              <Image source={require('../../assets/images/list-select.png')} />
+              <Image source={ImagesConst.listSelect} />
             )}
             onPress={() =>
               this.setState({selectedTab: 'product', title: 'Sản phẩm'})
@@ -78,10 +79,10 @@ class BottomTabBar extends Component {
             title="Giỏ hàng"
             titleStyle={styles.titleTab}
             renderIcon={() => (
-              <Image source={require('../../assets/images/cart-black.png')} />
+              <Image source={ImagesConst.cartBlack} />
             )}
             renderSelectedIcon={() => (
-              <Image source={require('../../assets/images/cart-select.png')} />
+              <Image source={ImagesConst.cartSelect} />
             )}
             badgeText={this.props.countCart}
             onPress={() =>
@@ -95,12 +96,12 @@ class BottomTabBar extends Component {
             titleStyle={styles.titleTab}
             renderIcon={() => (
               <Image
-                source={require('../../assets/images/setting-black.png')}
+                source={ImagesConst.settingBlack}
               />
             )}
             renderSelectedIcon={() => (
               <Image
-                source={require('../../assets/images/setting-select.png')}
+                source={ImagesConst.settingSelect}
               />
             )}
             onPress={() =>

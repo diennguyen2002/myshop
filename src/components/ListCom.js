@@ -6,14 +6,13 @@ import {
   StyleSheet,
   Image,
   View,
-  ActivityIndicator,
   RefreshControl,
 } from 'react-native';
 import {connect} from 'react-redux';
 import {actionCreators} from '../redux/actions/actionCreators';
 import AsyncStorage from '@react-native-community/async-storage';
 
-const HOST = 'http://192.168.1.105:3000';
+const HOST = 'https://server-salephone-app.herokuapp.com';
 
 const Item = ({item, addCart}) => {
   const price =
@@ -33,7 +32,7 @@ const Item = ({item, addCart}) => {
         <Text style={styles.desPrice}>{price}</Text>
         <TouchableOpacity
           style={styles.cartBtn}
-          onPress={()=>addCart(item)}>
+          onPress={() => addCart(item)}>
           <Text style={styles.cartText}>Chọn mua</Text>
         </TouchableOpacity>
       </View>
@@ -71,12 +70,12 @@ class ListCom extends Component {
   addCart = async (value) => {
     try {
       const cart = await this.getCart()
-      console.log('cart hien tai')
-      console.log(cart)
+      //console.log('cart hien tai')
+      //console.log(cart)
       if(cart.length === 0){
         cart.push(value)
-        console.log('cart them moi')
-        console.log(cart)
+        //console.log('cart them moi')
+        //console.log(cart)
         await this.storeCart(cart)
       } else {
         let exitst = false
@@ -84,17 +83,17 @@ class ListCom extends Component {
           if(value._id === el._id){
             exitst = true
             el.quantity +=1
-            console.log('cart them sl')
+            //console.log('cart them sl')
             return false
           }
         })
-        
+
         if(!exitst){
-          console.log('cart them moi')
+          //console.log('cart them moi')
           cart.push(value)
         }
         
-        console.log(cart)
+        //console.log(cart)
         await this.storeCart(cart)
       }
 
@@ -119,7 +118,7 @@ class ListCom extends Component {
     return (
       <View>
         <FlatList
-          data={this.props.data}
+          data={this.props.products}
           renderItem={this.renderItem}
           keyExtractor={(item) => item.id}
           refreshControl={
@@ -189,4 +188,4 @@ const mapStateToProps = function (state) {
   return {products: state.products};
 };
 
-export default connect(null, actionCreators)(ListCom);
+export default connect(mapStateToProps, actionCreators)(ListCom);

@@ -1,7 +1,7 @@
 import {actionTypes} from './actionTypes';
 import AsyncStorage from '@react-native-community/async-storage';
 
-const HOST = 'http://192.168.1.105:3000'
+const HOST = 'https://server-salephone-app.herokuapp.com'
 
 function fetchList(page = '', cb = null) {
   return (dispatch) => {
@@ -16,6 +16,20 @@ function fetchList(page = '', cb = null) {
         console.error(error);
       });
   };
+}
+
+function fetchListSearch(name=''){
+  return dispatch => {
+    fetch(HOST + '/list_search/'+name)
+      .then((response) => response.json())
+      .then((json) => {
+        //console.log(json.products)
+        dispatch({type: actionTypes.FETCH_LIST, products: json.products, search:true})
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
 }
 
 function fetchTopList() {
@@ -68,11 +82,11 @@ getCart = async () => {
 function putCountCart(){
   return async dispatch => {
     const cart = await getCart()
-    console.log('cart putCountCart')
-    console.log(cart)
+    //console.log('cart putCountCart')
+    //console.log(cart)
     const countCart = cart.map(el => el.quantity)
                           .reduce(((sum, val)=>sum + val))
-    console.log(countCart)
+    //console.log(countCart)
     dispatch({type: actionTypes.PUT_COUNT_CART, countCart}) 
   }
   
@@ -81,5 +95,6 @@ function putCountCart(){
 export const actionCreators = {
   fetchList,
   fetchTopList,
+  fetchListSearch,
   putCountCart
 };
