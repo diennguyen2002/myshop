@@ -12,6 +12,8 @@ const Images = {
     cartSelect: require('../../assets/images/cart-select.png'),
     settingBlack: require('../../assets/images/setting-black.png'),
     settingSelect: require('../../assets/images/setting-select.png'),
+
+    profile: require('../../assets/images/profile.png'),
 };
 
 export default Images;

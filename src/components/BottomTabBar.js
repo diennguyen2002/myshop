@@ -29,6 +29,7 @@ class BottomTabBar extends Component {
 
   componentDidMount(){
     this.props.fetchCart()
+    this.props.fetchLogin()
   }  
   render() {
     return (

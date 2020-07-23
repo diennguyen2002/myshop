@@ -129,7 +129,7 @@ function fetchCart() {
 function putCart(list) {
   return (dispatch) => {
     // calculate amount and quantity
-    const {amount, quantity} = calculateAmountQuantity(list)
+    const {amount, quantity} = calculateAmountQuantity(list);
     storeCart({list, quantity, amount});
     dispatch({type: actionTypes.PUT_CART, cart: {list, quantity, amount}});
   };
@@ -154,7 +154,7 @@ function deleteItemCart(id) {
     if (list.length > 0) {
       //console.log('list > 0');
       // calculate amount and quantity
-      const {amount, quantity} = calculateAmountQuantity(list)
+      const {amount, quantity} = calculateAmountQuantity(list);
       storeCart({list, quantity, amount});
       dispatch({type: actionTypes.PUT_CART, cart: {list, quantity, amount}});
     } else {
@@ -173,17 +173,44 @@ function putQuantityItemCart(id, newQuantity) {
     let {list} = await getCart();
 
     // find item to update quantity
-    let index = 0;
-    list.forEach((item, idx) => {
+    list.forEach((item) => {
       if (item._id === id) {
         item.quantity = newQuantity;
         return false;
       }
     });
     // calculate amount and quantity
-    const {amount, quantity} = calculateAmountQuantity(list)
+    const {amount, quantity} = calculateAmountQuantity(list);
     storeCart({list, quantity, amount});
     dispatch({type: actionTypes.PUT_CART, cart: {list, quantity, amount}});
+  };
+}
+
+function fetchLogin() {
+  return async (dispatch) => {
+    const token = await AsyncStorage.getItem('@token_key');
+    //return jsonString !== null ? JSON.parse(jsonString) : null;
+    dispatch({type: actionTypes.PUT_LOGIN, token});
+  };
+}
+
+function putLogin(username, password) {
+  return async (dispatch) => {
+    if (username === 'root' && password === 'root') {
+      token = 'JSON WEB TOKEN';
+      //const jsonValue = JSON.stringify(token);
+      await AsyncStorage.setItem('@token_key', token);
+      dispatch({type: actionTypes.PUT_LOGIN, token});
+    }
+  };
+}
+
+function putLogout() {
+  return async (dispatch) => {
+    token = '';
+    //const jsonValue = JSON.stringify(token);
+    await AsyncStorage.setItem('@token_key', token);
+    dispatch({type: actionTypes.PUT_LOGOUT, token});
   };
 }
 
@@ -195,4 +222,7 @@ export const actionCreators = {
   putCart,
   deleteItemCart,
   putQuantityItemCart,
+  fetchLogin,
+  putLogin,
+  putLogout,
 };
