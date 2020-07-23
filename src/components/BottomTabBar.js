@@ -28,7 +28,7 @@ class BottomTabBar extends Component {
   goHome = () => this.setState({selectedTab: 'home', title: 'Trang chủ'});
 
   componentDidMount(){
-    this.props.putCountCart()
+    this.props.fetchCart()
   }  
   render() {
     return (
@@ -86,7 +86,7 @@ class BottomTabBar extends Component {
             renderSelectedIcon={() => (
               <Image source={ImagesConst.cartSelect} />
             )}
-            badgeText={this.props.countCart}
+            badgeText={this.props.cart.quantity}
             onPress={() =>
               this.setState({selectedTab: 'cart', title: 'Giỏ hàng'})
             }>
@@ -124,6 +124,6 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = function(state){
-  return {countCart: state.countCart}
+  return {cart: state.cart}
 }
 export default connect(mapStateToProps, actionCreators)(BottomTabBar)

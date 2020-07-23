@@ -9,12 +9,10 @@ import {
 } from 'react-native';
 import {connect} from 'react-redux';
 import {actionCreators} from '../redux/actions/actionCreators';
-import AsyncStorage from '@react-native-community/async-storage';
 import AppConfig from '../constants/config';
+import Helper from '../helper/Helper'
 
 const Item = ({item, addCart}) => {
-  const price =
-    item.price.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.') + 'đ';
   return (
     <View style={styles.item}>
       <View style={styles.image}>
@@ -27,7 +25,7 @@ const Item = ({item, addCart}) => {
       </View>
       <View style={styles.description}>
         <Text style={styles.desName}>{item.name}</Text>
-        <Text style={styles.desPrice}>{price}</Text>
+        <Text style={styles.desPrice}>{Helper.formatMoney(item.price)}</Text>
         <TouchableOpacity
           style={styles.cartBtn}
           onPress={() => addCart(item)}>
@@ -39,56 +37,29 @@ const Item = ({item, addCart}) => {
 };
 
 class HomeSectionList extends Component {
-  storeCart = async (value) => {
-    try {
-      const jsonValue = JSON.stringify(value)
-      await AsyncStorage.setItem('@cart_key', jsonValue)
-    } catch (e) {
-      console.log(e)
-    }
-  }
 
-  getCart = async () => {
+  addCart = (value) => {
     try {
-      const jsonValue = await AsyncStorage.getItem('@cart_key')
-      return jsonValue !== null ? JSON.parse(jsonValue) : null;
-    } catch(e) {
-      console.log(e)
-    }
-  }
-
-  addCart = async (value) => {
-    try {
-      const cart = await this.getCart()
-      //console.log('cart hien tai')
-      //console.log(cart)
-      if(cart.length === 0){
+      const cart = this.props.cart.list
+      if(cart.length === 0){ // cart is empty
         cart.push(value)
-        //console.log('cart them moi')
-        //console.log(cart)
-        await this.storeCart(cart)
-      } else {
-        let exitst = false
+      } else { // cart has items
+        let exitst = false // flag for checking item exist or not
         cart.forEach((el) => {
           if(value._id === el._id){
             exitst = true
-            el.quantity +=1
-            //console.log('cart them sl')
+            el.quantity +=1 // if exist, then increase quantity
             return false
           }
         })
 
-        if(!exitst){
-          //console.log('cart them moi')
+        if(!exitst){ // if not exist, then add new
           cart.push(value)
         }
-        
-        //console.log(cart)
-        await this.storeCart(cart)
+
       }
-      
+      this.props.putCart(cart)
       alert('Đã thêm vào giỏ hàng')
-      this.props.putCountCart()
     } catch (e) {
       console.log(e)
     }
@@ -163,7 +134,7 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = function(state){
-  return {topList: state.topList}
+  return {topList: state.topList, cart: state.cart}
 }
 
 export default connect(mapStateToProps, actionCreators)(HomeSectionList)

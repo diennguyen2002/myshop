@@ -9,15 +9,20 @@ import {
 } from 'react-native';
 import NumericInput from 'react-native-numeric-input';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import AsyncStorage from '@react-native-community/async-storage';
 import AppConfig from '../constants/config';
+import {connect} from 'react-redux'
+import {actionCreators} from '../redux/actions/actionCreators';
+import Helper from '../helper/Helper'
 
-const NumberCom = ({quantity}) => {
-  const [value, setValue] = useState(quantity);
+const NumberCom = ({quantity, updateQuantityItem, id}) => {
+  const [qty, setQuantity] = useState(quantity);
   return (
     <NumericInput
-      value={value}
-      onChange={(value) => setValue(value)}
+      value={qty}
+      onChange={(qty) => {
+        setQuantity(qty)
+        updateQuantityItem(id, qty)
+      }}
       editable={false}
       minValue={1}
       maxValue={5}
@@ -31,9 +36,7 @@ const NumberCom = ({quantity}) => {
   );
 };
 
-const Item = ({item}) => {
-  const price =
-    item.price.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.') + 'đ';
+const Item = ({item, removeItem, updateQuantityItem}) => {
   return (
     <View style={styles.item}>
       <View style={styles.image}>
@@ -46,12 +49,12 @@ const Item = ({item}) => {
       </View>
       <View style={styles.description}>
         <Text style={styles.desName}>{item.name}</Text>
-        <Text style={styles.desPrice}>{price}</Text>
+        <Text style={styles.desPrice}>{Helper.formatMoney(item.price)}</Text>
         <View style={styles.quantityContainer}>
-          <NumberCom quantity={item.quantity} />
+          <NumberCom quantity={item.quantity} updateQuantityItem={updateQuantityItem} id={item._id} />
           <TouchableOpacity
             style={styles.delete}
-            onPress={() => console.log('deleted')}>
+            onPress={() => removeItem(item._id)}>
             <Text>
               <Icon name="delete" size={23} color="#3498db" />
             </Text>
@@ -62,79 +65,46 @@ const Item = ({item}) => {
   );
 };
 
-export default class Cart extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      cart: [],
-      amount: 0,
-    };
+class Cart extends Component {
+
+  updateQuantityItem = (id, newQuantity) => {
+    this.props.putQuantityItemCart(id, newQuantity)
+  }
+
+  removeItem = (id) => {
+    //console.log('Cart: '+ id)
+    this.props.deleteItemCart(id)
   }
 
   renderItem = ({item}) => {
-    return <Item item={item} />;
+    return <Item item={item} removeItem={this.removeItem} updateQuantityItem={this.updateQuantityItem} />;
   };
-
-  storeCart = async (value) => {
-    try {
-      const jsonValue = JSON.stringify(value);
-      await AsyncStorage.setItem('@cart_key', jsonValue);
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
-  getCart = async () => {
-    try {
-      const jsonValue = await AsyncStorage.getItem('@cart_key');
-      return jsonValue !== null ? JSON.parse(jsonValue) : null;
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
-  async componentDidMount() {
-    const cartStorage = await this.getCart();
-    //console.log('get Cart');
-    //console.log(cartStorage);
-    const amount = cartStorage
-      .map((item) => {
-        return item.price * item.quantity;
-      })
-      .reduce((sum, val) => sum + val);
-
-    //console.log(cartStorage);
-    this.setState({cart: cartStorage, amount});
-  }
 
   render() {
-    const amount =
-      this.state.amount.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.') +
-      'đ';
     return (
       <View style={styles.container}>
-        {this.state.cart.length == 0 ? (
+        { this.props.cart.quantity == 0 ? (
           <Text style={styles.notSeclectItemText}>Bạn chưa chọn sản phẩm nào</Text>
         ) : null}
         <View style={styles.cartListContainer}>
           <View>
             <FlatList
-              data={this.state.cart}
+              data={ this.props.cart.list}
               renderItem={this.renderItem}
-              keyExtractor={(item) => item.id}
+              keyExtractor={(item) => item._id}
             />
           </View>
-          {this.state.cart.length > 0 ? (
+          { this.props.cart.quantity > 0 ? (
             <View>
-              <Text style={styles.amountText}>Thành tiền: {amount}</Text>
+              <Text style={styles.amountText}>Thành tiền: { this.props.cart.amount}</Text>
             </View>
           ) : null}
         </View>
-        {this.state.cart.length > 0 ? (
+        { this.props.cart.quantity > 0 ? (
           <View style={styles.amountContainer}>
             <TouchableOpacity
               style={styles.paymentBtn}
-              onPress={() => console.log('thanh toan')}>
+              onPress={() => alert('Chức năng này chưa hoàn thành')}>
               <Text style={styles.paymentText}>Thanh toán</Text>
             </TouchableOpacity>
           </View>
@@ -224,3 +194,9 @@ const styles = StyleSheet.create({
     marginLeft: 20,
   },
 });
+
+const mapStateToProps = function(state){
+  return {cart: state.cart}
+}
+
+export default connect(mapStateToProps, actionCreators)(Cart)

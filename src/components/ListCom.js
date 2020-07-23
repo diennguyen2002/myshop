@@ -10,12 +10,10 @@ import {
 } from 'react-native';
 import {connect} from 'react-redux';
 import {actionCreators} from '../redux/actions/actionCreators';
-import AsyncStorage from '@react-native-community/async-storage';
 import AppConfig from '../constants/config';
+import Helper from '../helper/Helper'
 
 const Item = ({item, addCart}) => {
-  const price =
-    item.price.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.') + 'đ';
   return (
     <View style={styles.item}>
       <View style={styles.image}>
@@ -28,7 +26,7 @@ const Item = ({item, addCart}) => {
       </View>
       <View style={styles.description}>
         <Text style={styles.desName}>{item.name}</Text>
-        <Text style={styles.desPrice}>{price}</Text>
+        <Text style={styles.desPrice}>{Helper.formatMoney(item.price)}</Text>
         <TouchableOpacity
           style={styles.cartBtn}
           onPress={() => addCart(item)}>
@@ -48,66 +46,38 @@ class ListCom extends Component {
     };
   }
 
-  storeCart = async (value) => {
+  addCart = (value) => {
     try {
-      const jsonValue = JSON.stringify(value)
-      await AsyncStorage.setItem('@cart_key', jsonValue)
-    } catch (e) {
-      console.log(e)
-    }
-  }
-
-  getCart = async () => {
-    try {
-      const jsonValue = await AsyncStorage.getItem('@cart_key')
-      return jsonValue !== null ? JSON.parse(jsonValue) : null;
-    } catch(e) {
-      console.log(e)
-    }
-  }
-
-  addCart = async (value) => {
-    try {
-      const cart = await this.getCart()
-      //console.log('cart hien tai')
-      //console.log(cart)
-      if(cart.length === 0){
+      const cart = this.props.cart.list
+      if(cart.length === 0){ // cart is empty
         cart.push(value)
-        //console.log('cart them moi')
-        //console.log(cart)
-        await this.storeCart(cart)
-      } else {
-        let exitst = false
+      } else { // cart has items
+        let exitst = false // flag for checking item exist or not
         cart.forEach((el) => {
           if(value._id === el._id){
             exitst = true
-            el.quantity +=1
-            //console.log('cart them sl')
+            el.quantity +=1 // if exist, then increase quantity
             return false
           }
         })
 
-        if(!exitst){
-          //console.log('cart them moi')
+        if(!exitst){ // if not exist, then add new
           cart.push(value)
         }
-        
-        //console.log(cart)
-        await this.storeCart(cart)
+
       }
-      
+      this.props.putCart(cart)
       alert('Đã thêm vào giỏ hàng')
-      this.props.putCountCart()
     } catch (e) {
       console.log(e)
     }
   }
+
   renderItem = ({item}) => {
     return <Item item={item} addCart={this.addCart} />;
   };
 
   loadMore = () => {
-    //console.log('load more', this.state.page);
     this.setState({isRefreshing: true, page: this.state.page + 1});
     this.props.fetchList(this.state.page, (st) =>
       this.setState({isRefreshing: st}),
@@ -185,7 +155,7 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = function (state) {
-  return {products: state.products};
+  return {products: state.products, cart: state.cart};
 };
 
 export default connect(mapStateToProps, actionCreators)(ListCom);
