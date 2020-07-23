@@ -12,14 +12,10 @@ import Language from './src/components/Language';
 import Contact from './src/components/Contact';
 import About from './src/components/About';
 import Login from './src/components/Login';
-import AsyncStorage from '@react-native-community/async-storage'; 
 
 const Stack = createStackNavigator();
 
 export default class App extends Component {
-  // async componentDidMount(){
-  //   await AsyncStorage.clear()
-  // }
   render() {
     return (
       <SafeAreaView style={styles.container}>

@@ -82,6 +82,30 @@ getCart = async () => {
   }
 };
 
+function calculateAmountQuantity(list) {
+  // calculate amount
+  let amount = 0,
+    quantity = 0;
+
+  if (list.length > 0) {
+    amount = list
+      .map((item) => {
+        return item.price * item.quantity;
+      })
+      .reduce((sum, val) => sum + val);
+
+    // format amount
+    amount = Helper.formatMoney(amount);
+
+    // calculate quantity of item in cart
+    quantity = list
+      .map((item) => item.quantity)
+      .reduce((sum, val) => sum + val);
+  }
+
+  return {amount, quantity};
+}
+
 function fetchCart() {
   return async (dispatch) => {
     // get list from cart in strorage
@@ -104,21 +128,8 @@ function fetchCart() {
 
 function putCart(list) {
   return (dispatch) => {
-    // calculate amount
-    let amount = list
-      .map((item) => {
-        return item.price * item.quantity;
-      })
-      .reduce((sum, val) => sum + val);
-
-    // format amount
-    amount = Helper.formatMoney(amount);
-
-    // calculate quantity of item in cart
-    const quantity = list
-      .map((item) => item.quantity)
-      .reduce((sum, val) => sum + val);
-
+    // calculate amount and quantity
+    const {amount, quantity} = calculateAmountQuantity(list)
     storeCart({list, quantity, amount});
     dispatch({type: actionTypes.PUT_CART, cart: {list, quantity, amount}});
   };
@@ -126,7 +137,7 @@ function putCart(list) {
 
 function deleteItemCart(id) {
   return async (dispatch) => {
-    let {list, quantity, amount} = await getCart();
+    let {list} = await getCart();
 
     // find item to delete
     let index = 0;
@@ -140,26 +151,10 @@ function deleteItemCart(id) {
     // delete item
     list.splice(index, 1);
 
-    //console.log('deleteItemCart')
-    //console.log(list)
-
     if (list.length > 0) {
       //console.log('list > 0');
-      // calculate amount
-      amount = list
-        .map((item) => {
-          return item.price * item.quantity;
-        })
-        .reduce((sum, val) => sum + val);
-
-      // format amount
-      amount = Helper.formatMoney(amount);
-
-      // calculate quantity of item in cart
-      quantity = list
-        .map((item) => item.quantity)
-        .reduce((sum, val) => sum + val);
-
+      // calculate amount and quantity
+      const {amount, quantity} = calculateAmountQuantity(list)
       storeCart({list, quantity, amount});
       dispatch({type: actionTypes.PUT_CART, cart: {list, quantity, amount}});
     } else {
@@ -185,22 +180,8 @@ function putQuantityItemCart(id, newQuantity) {
         return false;
       }
     });
-
-    // calculate amount
-    let amount = list
-      .map((item) => {
-        return item.price * item.quantity;
-      })
-      .reduce((sum, val) => sum + val);
-
-    // format amount
-    amount = Helper.formatMoney(amount);
-
-    // calculate quantity of item in cart
-    let quantity = list
-      .map((item) => item.quantity)
-      .reduce((sum, val) => sum + val);
-
+    // calculate amount and quantity
+    const {amount, quantity} = calculateAmountQuantity(list)
     storeCart({list, quantity, amount});
     dispatch({type: actionTypes.PUT_CART, cart: {list, quantity, amount}});
   };
