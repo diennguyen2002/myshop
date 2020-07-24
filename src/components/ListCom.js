@@ -6,12 +6,12 @@ import {
   StyleSheet,
   Image,
   View,
-  RefreshControl,
+  ActivityIndicator,
 } from 'react-native';
 import {connect} from 'react-redux';
 import {actionCreators} from '../redux/actions/actionCreators';
 import AppConfig from '../constants/config';
-import Helper from '../helper/Helper'
+import Helper from '../helper/Helper';
 
 const Item = ({item, addCart}) => {
   return (
@@ -27,9 +27,7 @@ const Item = ({item, addCart}) => {
       <View style={styles.description}>
         <Text style={styles.desName}>{item.name}</Text>
         <Text style={styles.desPrice}>{Helper.formatMoney(item.price)}</Text>
-        <TouchableOpacity
-          style={styles.cartBtn}
-          onPress={() => addCart(item)}>
+        <TouchableOpacity style={styles.cartBtn} onPress={() => addCart(item)}>
           <Text style={styles.cartText}>Chọn mua</Text>
         </TouchableOpacity>
       </View>
@@ -41,66 +39,67 @@ class ListCom extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isRefreshing: false,
+      //isRefreshing: false,
       page: 1,
     };
   }
 
   addCart = (value) => {
     try {
-      const cart = this.props.cart.list
-      if(cart.length === 0){ // cart is empty
-        cart.push(value)
-      } else { // cart has items
-        let exitst = false // flag for checking item exist or not
+      const cart = this.props.cart.list;
+      if (cart.length === 0) {
+        // cart is empty
+        cart.push(value);
+      } else {
+        // cart has items
+        let exitst = false; // flag for checking item exist or not
         cart.forEach((el) => {
-          if(value._id === el._id){
-            exitst = true
-            el.quantity +=1 // if exist, then increase quantity
-            return false
+          if (value._id === el._id) {
+            exitst = true;
+            el.quantity += 1; // if exist, then increase quantity
+            return false;
           }
-        })
+        });
 
-        if(!exitst){ // if not exist, then add new
-          cart.push(value)
+        if (!exitst) {
+          // if not exist, then add new
+          cart.push(value);
         }
-
       }
-      this.props.putCart(cart)
-      alert('Đã thêm vào giỏ hàng')
+      this.props.putCart(cart);
+      alert('Đã thêm vào giỏ hàng');
     } catch (e) {
-      console.log(e)
+      console.log(e);
     }
-  }
+  };
 
   renderItem = ({item}) => {
     return <Item item={item} addCart={this.addCart} />;
   };
 
   loadMore = () => {
-    this.setState({isRefreshing: true, page: this.state.page + 1});
-    this.props.fetchList(this.state.page, (st) =>
-      this.setState({isRefreshing: st}),
-    );
+    this.setState({page: this.state.page + 1});
+    this.props.fetchList(this.state.page);
   };
+
+  componentDidMount() {
+    this.props.fetchList(0);
+  }
 
   render() {
     return (
-      <View>
+      <>
         <FlatList
           data={this.props.products}
           renderItem={this.renderItem}
           keyExtractor={(item) => item.id}
-          refreshControl={
-            <RefreshControl
-              refreshing={this.state.isRefreshing}
-              //onRefresh={this.onPullRefresh}
-            />
-          }
           onEndReachedThreshold={0.4}
           onEndReached={this.loadMore}
         />
-      </View>
+        {this.props.isLoading ? (
+          <ActivityIndicator size="large" color="#3498db" />
+        ) : null}
+      </>
     );
   }
 }
@@ -155,7 +154,11 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = function (state) {
-  return {products: state.products, cart: state.cart};
+  return {
+    products: state.products,
+    cart: state.cart,
+    isLoading: state.isLoading,
+  };
 };
 
 export default connect(mapStateToProps, actionCreators)(ListCom);

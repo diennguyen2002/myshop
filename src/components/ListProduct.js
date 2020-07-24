@@ -1,14 +1,11 @@
 import React, {Component} from 'react';
-import {View, StyleSheet} from 'react-native';
+import {View, StyleSheet, ActivityIndicator} from 'react-native';
 import Search from './Search';
 import ListCom from './ListCom';
 import { connect } from 'react-redux';
 import { actionCreators } from '../redux/actions/actionCreators';
 
 class Listproduct extends Component {
-  componentDidMount(){
-    this.props.fetchList(0)
-  }
   render() {
     return (
       <View style={styles.wrapper}>
@@ -16,7 +13,7 @@ class Listproduct extends Component {
           <Search />
         </View>
         <View style={styles.bodyContainer}>
-          <ListCom data={this.props.products}/>
+          <ListCom />
         </View>
       </View>
     );

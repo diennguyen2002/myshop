@@ -3,14 +3,16 @@ import AsyncStorage from '@react-native-community/async-storage';
 import AppConfig from '../../constants/config';
 import Helper from '../../helper/Helper';
 
-function fetchList(page = '', cb = null) {
+function fetchList(page = '') {
   return (dispatch) => {
+    dispatch({type: actionTypes.PUT_LOADING, isLoading: true})
     fetch(AppConfig.HOST + '/list/' + page)
       .then((response) => response.json())
       .then((json) => {
         //console.log(json.products)
-        if (cb) cb(false);
+        //if (cb) cb(false);
         dispatch({type: actionTypes.FETCH_LIST, products: json.products});
+        dispatch({type: actionTypes.PUT_LOADING, isLoading: false})
       })
       .catch((error) => {
         console.error(error);
@@ -20,6 +22,7 @@ function fetchList(page = '', cb = null) {
 
 function fetchListSearch(name = '') {
   return (dispatch) => {
+    dispatch({type: actionTypes.PUT_LOADING, isLoading: true})
     fetch(AppConfig.HOST + '/list_search/' + name)
       .then((response) => response.json())
       .then((json) => {
@@ -29,6 +32,7 @@ function fetchListSearch(name = '') {
           products: json.products,
           search: true,
         });
+        dispatch({type: actionTypes.PUT_LOADING, isLoading: false})
       })
       .catch((error) => {
         console.error(error);
@@ -38,6 +42,7 @@ function fetchListSearch(name = '') {
 
 function fetchTopList() {
   return (dispatch) => {
+    dispatch({type: actionTypes.PUT_LOADING, isLoading: true})
     Promise.all([
       fetch(AppConfig.HOST + '/list/0').then((response) => response.json()),
       fetch(AppConfig.HOST + '/list/1').then((response) => response.json()),
@@ -59,6 +64,7 @@ function fetchTopList() {
           },
         ];
         dispatch({type: actionTypes.FETCH_TOP_LIST, topList});
+        dispatch({type: actionTypes.PUT_LOADING, isLoading: false})
       })
       .catch((err) => console.log(err));
   };
@@ -219,10 +225,10 @@ export const actionCreators = {
   fetchTopList,
   fetchListSearch,
   fetchCart,
-  putCart,
-  deleteItemCart,
-  putQuantityItemCart,
   fetchLogin,
+  putCart,
+  putQuantityItemCart,
   putLogin,
   putLogout,
+  deleteItemCart,
 };

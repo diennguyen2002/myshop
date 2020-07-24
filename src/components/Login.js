@@ -18,8 +18,8 @@ class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      txtUser: '',
-      txtPass: '',
+      txtUser: 'root',
+      txtPass: 'root',
     };
   }
   goback() {

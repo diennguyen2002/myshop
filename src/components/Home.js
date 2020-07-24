@@ -1,14 +1,9 @@
 import React, {Component} from 'react';
-import {View, StyleSheet} from 'react-native';
+import {View, StyleSheet, ActivityIndicator} from 'react-native';
 import HomeSectionList from './HomeSectionList';
 import SwiperCom from './SwiperCom';
-import {connect} from 'react-redux'
-import { actionCreators } from '../redux/actions/actionCreators';
 
-class Home extends Component {
-  componentDidMount(){
-    this.props.fetchTopList()
-  }
+export default class Home extends Component {
   render() {
     return (
       <View style={styles.wrapper}>
@@ -16,7 +11,7 @@ class Home extends Component {
           <SwiperCom />
         </View>
         <View style={styles.bodySection}>
-          <HomeSectionList data={this.props.topList} />
+          <HomeSectionList />
         </View>
       </View>
     );
@@ -37,9 +32,3 @@ const styles = StyleSheet.create({
     flex: 7.5,
   },
 });
-
-const mapStateToProp = (state) => {
-  return {topList: state.topList}
-}
-
-export default connect(mapStateToProp, actionCreators)(Home)

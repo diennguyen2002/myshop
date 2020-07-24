@@ -1,6 +1,7 @@
 const FETCH_LIST = 'FETCH_LIST';
 const FETCH_TOP_LIST = 'FETCH_TOP_LIST';
 const FETCH_CART = 'FETCH_CART';
+const PUT_LOADING = 'PUT_LOADING';
 const PUT_CART = 'PUT_CART';
 const PUT_LOGIN = 'PUT_LOGIN'
 const PUT_LOGOUT = 'PUT_LOGOUT'
@@ -12,4 +13,5 @@ export const actionTypes = {
   PUT_CART,
   PUT_LOGIN,
   PUT_LOGOUT,
+  PUT_LOADING
 };

@@ -6,11 +6,12 @@ import {
   SectionList,
   Image,
   TouchableOpacity,
+  ActivityIndicator
 } from 'react-native';
 import {connect} from 'react-redux';
 import {actionCreators} from '../redux/actions/actionCreators';
 import AppConfig from '../constants/config';
-import Helper from '../helper/Helper'
+import Helper from '../helper/Helper';
 
 const Item = ({item, addCart}) => {
   return (
@@ -26,9 +27,7 @@ const Item = ({item, addCart}) => {
       <View style={styles.description}>
         <Text style={styles.desName}>{item.name}</Text>
         <Text style={styles.desPrice}>{Helper.formatMoney(item.price)}</Text>
-        <TouchableOpacity
-          style={styles.cartBtn}
-          onPress={() => addCart(item)}>
+        <TouchableOpacity style={styles.cartBtn} onPress={() => addCart(item)}>
           <Text style={styles.cartText}>Chọn mua</Text>
         </TouchableOpacity>
       </View>
@@ -37,44 +36,54 @@ const Item = ({item, addCart}) => {
 };
 
 class HomeSectionList extends Component {
-
   addCart = (value) => {
     try {
-      const cart = this.props.cart.list
-      if(cart.length === 0){ // cart is empty
-        cart.push(value)
-      } else { // cart has items
-        let exitst = false // flag for checking item exist or not
+      const cart = this.props.cart.list;
+      if (cart.length === 0) {
+        // cart is empty
+        cart.push(value);
+      } else {
+        // cart has items
+        let exitst = false; // flag for checking item exist or not
         cart.forEach((el) => {
-          if(value._id === el._id){
-            exitst = true
-            el.quantity +=1 // if exist, then increase quantity
-            return false
+          if (value._id === el._id) {
+            exitst = true;
+            el.quantity += 1; // if exist, then increase quantity
+            return false;
           }
-        })
+        });
 
-        if(!exitst){ // if not exist, then add new
-          cart.push(value)
+        if (!exitst) {
+          // if not exist, then add new
+          cart.push(value);
         }
-
       }
-      this.props.putCart(cart)
-      alert('Đã thêm vào giỏ hàng')
+      this.props.putCart(cart);
+      alert('Đã thêm vào giỏ hàng');
     } catch (e) {
-      console.log(e)
+      console.log(e);
     }
+  };
+
+  componentDidMount(){
+    this.props.fetchTopList()
   }
 
-  render(){
+  render() {
     return (
-      <SectionList
-        sections={this.props.topList}
-        keyExtractor={(item, index) => item + index}
-        renderItem={({item}) => <Item item={item} addCart={this.addCart}  />}
-        renderSectionHeader={({section: {title}}) => (
-          <Text style={styles.header}>{title}</Text>
-        )}
-      />
+      <>
+        <SectionList
+          sections={this.props.topList}
+          keyExtractor={(item, index) => item + index}
+          renderItem={({item}) => <Item item={item} addCart={this.addCart} />}
+          renderSectionHeader={({section: {title}}) => (
+            <Text style={styles.header}>{title}</Text>
+          )}
+        />
+        {this.props.isLoading ? (
+          <ActivityIndicator size="large" color="#3498db" />
+        ) : null}
+      </>
     );
   }
 }
@@ -133,8 +142,8 @@ const styles = StyleSheet.create({
   },
 });
 
-const mapStateToProps = function(state){
-  return {topList: state.topList, cart: state.cart}
-}
+const mapStateToProps = function (state) {
+  return {topList: state.topList, cart: state.cart, isLoading: state.isLoading};
+};
 
-export default connect(mapStateToProps, actionCreators)(HomeSectionList)
+export default connect(mapStateToProps, actionCreators)(HomeSectionList);
