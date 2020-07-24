@@ -32,7 +32,7 @@ const vietnamese = {
     about_title: 'Đồ án khóa học React Native - 18/05/2020',
     about_text_app_name: 'Ứng dụng bán điện thoại di động',
     about_student_name: 'Học viên: Nguyễn Võ Thế Điền',
-    about_student_email: 'Email: dienngyen2002@yahoo.com',
+    about_student_email: 'Email: diennguyen2002@yahoo.com',
     about_student_phone: 'Điện thoại: 0918.070600',
     about_close_btn: 'Đóng',
     language_header: 'Ngôn ngữ',

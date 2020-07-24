@@ -4,18 +4,18 @@ import AppConfig from '../../constants/config';
 import Helper from '../../helper/Helper';
 import LANG from '../../language/language';
 
-const language = 'english'
+const language = 'english';
 
 function fetchList(page = '') {
   return (dispatch) => {
-    dispatch({type: actionTypes.PUT_LOADING, isLoading: true})
+    dispatch({type: actionTypes.PUT_LOADING, isLoading: true});
     fetch(AppConfig.HOST + '/list/' + page)
       .then((response) => response.json())
       .then((json) => {
         //console.log(json.products)
         //if (cb) cb(false);
         dispatch({type: actionTypes.FETCH_LIST, products: json.products});
-        dispatch({type: actionTypes.PUT_LOADING, isLoading: false})
+        dispatch({type: actionTypes.PUT_LOADING, isLoading: false});
       })
       .catch((error) => {
         console.error(error);
@@ -25,7 +25,7 @@ function fetchList(page = '') {
 
 function fetchListSearch(name = '') {
   return (dispatch) => {
-    dispatch({type: actionTypes.PUT_LOADING, isLoading: true})
+    dispatch({type: actionTypes.PUT_LOADING, isLoading: true});
     fetch(AppConfig.HOST + '/list_search/' + name)
       .then((response) => response.json())
       .then((json) => {
@@ -35,7 +35,7 @@ function fetchListSearch(name = '') {
           products: json.products,
           search: true,
         });
-        dispatch({type: actionTypes.PUT_LOADING, isLoading: false})
+        dispatch({type: actionTypes.PUT_LOADING, isLoading: false});
       })
       .catch((error) => {
         console.error(error);
@@ -45,7 +45,7 @@ function fetchListSearch(name = '') {
 
 function fetchTopList() {
   return (dispatch) => {
-    dispatch({type: actionTypes.PUT_LOADING, isLoading: true})
+    dispatch({type: actionTypes.PUT_LOADING, isLoading: true});
     Promise.all([
       fetch(AppConfig.HOST + '/list/0').then((response) => response.json()),
       fetch(AppConfig.HOST + '/list/1').then((response) => response.json()),
@@ -67,24 +67,24 @@ function fetchTopList() {
           },
         ];
         dispatch({type: actionTypes.FETCH_TOP_LIST, topList});
-        dispatch({type: actionTypes.PUT_LOADING, isLoading: false})
+        dispatch({type: actionTypes.PUT_LOADING, isLoading: false});
       })
       .catch((err) => console.log(err));
   };
 }
 
-storeCart = async (value) => {
+store_key = async (key, value) => {
   try {
     const jsonValue = JSON.stringify(value);
-    await AsyncStorage.setItem('@cart_key', jsonValue);
+    await AsyncStorage.setItem(key, jsonValue);
   } catch (e) {
     console.log(e);
   }
 };
 
-getCart = async () => {
+get_key = async (key) => {
   try {
-    const jsonValue = await AsyncStorage.getItem('@cart_key');
+    const jsonValue = await AsyncStorage.getItem(key);
     return jsonValue !== null ? JSON.parse(jsonValue) : null;
   } catch (e) {
     console.log(e);
@@ -118,9 +118,9 @@ function calculateAmountQuantity(list) {
 function fetchCart() {
   return async (dispatch) => {
     // get list from cart in strorage
-    const cart = await getCart();
+    const cart = await get_key('@cart_key');
     if (cart === null || cart === undefined) {
-      storeCart({list: [], quantity: 0, amount: 0});
+      store_key('@cart_key', {list: [], quantity: 0, amount: 0});
       dispatch({
         type: actionTypes.FETCH_CART,
         cart: {list: [], quantity: 0, amount: 0},
@@ -139,14 +139,14 @@ function putCart(list) {
   return (dispatch) => {
     // calculate amount and quantity
     const {amount, quantity} = calculateAmountQuantity(list);
-    storeCart({list, quantity, amount});
+    store_key('@cart_key', {list, quantity, amount});
     dispatch({type: actionTypes.PUT_CART, cart: {list, quantity, amount}});
   };
 }
 
 function deleteItemCart(id) {
   return async (dispatch) => {
-    let {list} = await getCart();
+    let {list} = await get_key('@cart_key');
 
     // find item to delete
     let index = 0;
@@ -164,11 +164,11 @@ function deleteItemCart(id) {
       //console.log('list > 0');
       // calculate amount and quantity
       const {amount, quantity} = calculateAmountQuantity(list);
-      storeCart({list, quantity, amount});
+      store_key('@cart_key', {list, quantity, amount});
       dispatch({type: actionTypes.PUT_CART, cart: {list, quantity, amount}});
     } else {
       //console.log('list = 0');
-      storeCart({list: [], quantity: 0, amount: 0});
+      store_key('@cart_key', {list: [], quantity: 0, amount: 0});
       dispatch({
         type: actionTypes.PUT_CART,
         cart: {list: [], quantity: 0, amount: 0},
@@ -179,7 +179,7 @@ function deleteItemCart(id) {
 
 function putQuantityItemCart(id, newQuantity) {
   return async (dispatch) => {
-    let {list} = await getCart();
+    let {list} = await get_key('@cart_key');
 
     // find item to update quantity
     list.forEach((item) => {
@@ -190,15 +190,15 @@ function putQuantityItemCart(id, newQuantity) {
     });
     // calculate amount and quantity
     const {amount, quantity} = calculateAmountQuantity(list);
-    storeCart({list, quantity, amount});
+    store_key('@cart_key', {list, quantity, amount});
     dispatch({type: actionTypes.PUT_CART, cart: {list, quantity, amount}});
   };
 }
 
 function fetchLogin() {
   return async (dispatch) => {
-    const token = await AsyncStorage.getItem('@token_key');
-    //return jsonString !== null ? JSON.parse(jsonString) : null;
+    let token = await get_key('@token_key');
+    token = token ? token : '';
     dispatch({type: actionTypes.PUT_LOGIN, token});
   };
 }
@@ -206,9 +206,8 @@ function fetchLogin() {
 function putLogin(username, password) {
   return async (dispatch) => {
     if (username === 'root' && password === 'root') {
-      token = 'JSON WEB TOKEN';
-      //const jsonValue = JSON.stringify(token);
-      await AsyncStorage.setItem('@token_key', token);
+      const token = {token: 'JSON WEB TOKEN'};
+      store_key('@token_key', token);
       dispatch({type: actionTypes.PUT_LOGIN, token});
     }
   };
@@ -216,10 +215,26 @@ function putLogin(username, password) {
 
 function putLogout() {
   return async (dispatch) => {
-    token = '';
-    //const jsonValue = JSON.stringify(token);
-    await AsyncStorage.setItem('@token_key', token);
+    const token = '';
+    store_key('@token_key', token);
     dispatch({type: actionTypes.PUT_LOGOUT, token});
+  };
+}
+
+function fetchLanguage() {
+  return async (dispatch) => {
+    let language = await get_key('@lang_key');
+    console.log('fetch Lang')
+    console.log(language)
+    language = language  ? language : 'vietnamese';
+    dispatch({type: actionTypes.FETCH_LANGUAGE, language});
+  };
+}
+
+function putLanguage(language) {
+  return async (dispatch) => {
+    store_key('@lang_key', language);
+    dispatch({type: actionTypes.PUT_LANGUAGE, language});
   };
 }
 
@@ -229,9 +244,11 @@ export const actionCreators = {
   fetchListSearch,
   fetchCart,
   fetchLogin,
+  fetchLanguage,
   putCart,
   putQuantityItemCart,
   putLogin,
   putLogout,
   deleteItemCart,
+  putLanguage,
 };

@@ -14,9 +14,7 @@ import AppConfig from '../constants/config';
 import Helper from '../helper/Helper';
 import LANG from '../language/language';
 
-const language = 'english'
-
-const Item = ({item, addCart}) => {
+const Item = ({item, addCart, language}) => {
   return (
     <View style={styles.item}>
       <View style={styles.image}>
@@ -42,7 +40,6 @@ class ListCom extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      //isRefreshing: false,
       page: 1,
     };
   }
@@ -70,14 +67,14 @@ class ListCom extends Component {
         }
       }
       this.props.putCart(cart);
-      alert(LANG[language].product_add_cart_alert);
+      alert(LANG[this.props.language].product_add_cart_alert);
     } catch (e) {
       console.log(e);
     }
   };
 
   renderItem = ({item}) => {
-    return <Item item={item} addCart={this.addCart} />;
+    return <Item item={item} addCart={this.addCart} language={this.props.language} />;
   };
 
   loadMore = () => {
@@ -161,6 +158,7 @@ const mapStateToProps = function (state) {
     products: state.products,
     cart: state.cart,
     isLoading: state.isLoading,
+    language: state.language
   };
 };
 

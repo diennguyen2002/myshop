@@ -2,11 +2,11 @@ import React, {Component} from 'react';
 import {Text, View, StyleSheet, TouchableOpacity} from 'react-native';
 import HeaderCom from './HeaderCom';
 import HeaderBtn from './HeaderBtn';
+import {connect} from 'react-redux'
+import {actionCreators} from '../redux/actions/actionCreators'
 import LANG from '../language/language';
 
-const language = 'english'
-
-export default class About extends Component {
+class About extends Component {
   goback() {
     const {navigation} = this.props;
     navigation.navigate('Main');
@@ -15,7 +15,7 @@ export default class About extends Component {
     return (
       <>
         <HeaderCom
-          title={LANG[language].about_header}
+          title={LANG[this.props.language].about_header}
           rightIcon={null}
           leftIcon={
             <HeaderBtn
@@ -26,14 +26,14 @@ export default class About extends Component {
         />
         <View style={styles.wrapper}>
           <View style={styles.aboutContainer}>
-            <Text style={styles.aboutTitleText}>{LANG[language].about_title}</Text>
-            <Text style={styles.aboutText}>{LANG[language].about_text_app_name}</Text>
-            <Text style={styles.aboutText}>{LANG[language].about_student_name}</Text>
-            <Text style={styles.aboutText}>{LANG[language].about_student_email}</Text>
-            <Text style={styles.aboutText}>{LANG[language].about_student_phone}</Text>
+            <Text style={styles.aboutTitleText}>{LANG[this.props.language].about_title}</Text>
+            <Text style={styles.aboutText}>{LANG[this.props.language].about_text_app_name}</Text>
+            <Text style={styles.aboutText}>{LANG[this.props.language].about_student_name}</Text>
+            <Text style={styles.aboutText}>{LANG[this.props.language].about_student_email}</Text>
+            <Text style={styles.aboutText}>{LANG[this.props.language].about_student_phone}</Text>
           </View>
           <TouchableOpacity onPress={()=>this.goback()} style={styles.btnContainer}>
-              <Text style={styles.txtBtn}>{LANG[language].about_close_btn}</Text>
+              <Text style={styles.txtBtn}>{LANG[this.props.language].about_close_btn}</Text>
             </TouchableOpacity>
         </View>
       </>
@@ -81,3 +81,8 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   }
 });
+
+const mapStateToProps = function(state){
+  return {language: state.language}
+}
+export default connect(mapStateToProps, actionCreators)(About)

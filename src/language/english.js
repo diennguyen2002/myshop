@@ -32,7 +32,7 @@ const english = {
     about_title: 'Project of React Native course - 18/05/2020',
     about_text_app_name: 'Selling phone application',
     about_student_name: 'Student: Nguyen Vo The Dien',
-    about_student_email: 'Email: dienngyen2002@yahoo.com',
+    about_student_email: 'Email: diennguyen2002@yahoo.com',
     about_student_phone: 'Phone: 0918.070600',
     about_close_btn: 'Close',
     language_header: 'Language',

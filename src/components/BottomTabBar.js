@@ -11,14 +11,12 @@ import {connect} from 'react-redux'
 import {actionCreators} from '../redux/actions/actionCreators'
 import ImagesConst from '../constants/ImagesConst'
 import LANG from '../language/language';
-
-const language = 'english'
 class BottomTabBar extends Component {
   constructor(props) {
     super(props);
     this.state = {
       selectedTab: 'home',
-      title: LANG[language].home_header,
+      title: LANG[this.props.language].home_header,
     };
   }
 
@@ -27,12 +25,8 @@ class BottomTabBar extends Component {
     navigation.navigate('Login');
   };
 
-  goHome = () => this.setState({selectedTab: 'home', title: LANG[language].home_header});
+  goHome = () => this.setState({selectedTab: 'home', title: LANG[this.props.language].home_header});
 
-  componentDidMount(){
-    this.props.fetchCart()
-    this.props.fetchLogin()
-  }  
   render() {
     return (
       <>
@@ -51,7 +45,7 @@ class BottomTabBar extends Component {
         <TabNavigator>
           <TabNavigator.Item
             selected={this.state.selectedTab === 'home'}
-            title={LANG[language].home_tab}
+            title={LANG[this.props.language].home_tab}
             titleStyle={styles.titleTab}
             renderIcon={() => (
               <Image source={ImagesConst.homeBlack} />
@@ -60,13 +54,13 @@ class BottomTabBar extends Component {
               <Image source={ImagesConst.homeSelect} />
             )}
             onPress={() =>
-              this.setState({selectedTab: 'home', title: LANG[language].home_header})
+              this.setState({selectedTab: 'home', title: LANG[this.props.language].home_header})
             }>
             <Home />
           </TabNavigator.Item>
           <TabNavigator.Item
             selected={this.state.selectedTab === 'product'}
-            title={LANG[language].product_tab}
+            title={LANG[this.props.language].product_tab}
             titleStyle={styles.titleTab}
             renderIcon={() => (
               <Image source={ImagesConst.listBlack} />
@@ -75,13 +69,13 @@ class BottomTabBar extends Component {
               <Image source={ImagesConst.listSelect} />
             )}
             onPress={() =>
-              this.setState({selectedTab: 'product', title: LANG[language].product_header})
+              this.setState({selectedTab: 'product', title: LANG[this.props.language].product_header})
             }>
             <ListProduct />
           </TabNavigator.Item>
           <TabNavigator.Item
             selected={this.state.selectedTab === 'cart'}
-            title={LANG[language].cart_tab}
+            title={LANG[this.props.language].cart_tab}
             titleStyle={styles.titleTab}
             renderIcon={() => (
               <Image source={ImagesConst.cartBlack} />
@@ -91,13 +85,13 @@ class BottomTabBar extends Component {
             )}
             badgeText={this.props.cart.quantity}
             onPress={() =>
-              this.setState({selectedTab: 'cart', title: LANG[language].cart_header})
+              this.setState({selectedTab: 'cart', title: LANG[this.props.language].cart_header})
             }>
             <Cart />
           </TabNavigator.Item>
           <TabNavigator.Item
             selected={this.state.selectedTab === 'setting'}
-            title={LANG[language].setting_tab}
+            title={LANG[this.props.language].setting_tab}
             titleStyle={styles.titleTab}
             renderIcon={() => (
               <Image
@@ -110,7 +104,7 @@ class BottomTabBar extends Component {
               />
             )}
             onPress={() =>
-              this.setState({selectedTab: 'setting', title: LANG[language].setting_header})
+              this.setState({selectedTab: 'setting', title: LANG[this.props.language].setting_header})
             }>
             <Setting navigation={this.props.navigation}/>
           </TabNavigator.Item>
@@ -127,6 +121,6 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = function(state){
-  return {cart: state.cart}
+  return {cart: state.cart, language: state.language}
 }
 export default connect(mapStateToProps, actionCreators)(BottomTabBar)

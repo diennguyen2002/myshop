@@ -2,14 +2,14 @@ import React, {Component} from 'react';
 import {View, Picker, StyleSheet} from 'react-native';
 import HeaderCom from './HeaderCom';
 import HeaderBtn from './HeaderBtn';
+import {connect} from 'react-redux';
+import {actionCreators} from '../redux/actions/actionCreators';
 import LANG from '../language/language';
 
-const language = 'english'
-
-export default class Language extends Component {
+class Language extends Component {
   state = {
-    selectedValue:'vietnamese',
-  }
+    selectedValue: this.props.language,
+  };
   goback() {
     const {navigation} = this.props;
     navigation.navigate('Main');
@@ -18,7 +18,7 @@ export default class Language extends Component {
     return (
       <>
         <HeaderCom
-          title={LANG[language].language_header}
+          title={LANG[this.props.language].language_header}
           rightIcon={null}
           leftIcon={
             <HeaderBtn
@@ -31,9 +31,10 @@ export default class Language extends Component {
           <Picker
             style={styles.langPicker}
             selectedValue={this.state.selectedValue}
-            onValueChange={(itemValue) =>
-              this.setState({selectedValue: itemValue})
-            }>
+            onValueChange={(itemValue) => {
+              this.setState({selectedValue: itemValue});
+              this.props.putLanguage(itemValue)
+            }}>
             <Picker.Item label="Tiếng Việt" value="vietnamese" />
             <Picker.Item label="English" value="english" />
           </Picker>
@@ -44,11 +45,11 @@ export default class Language extends Component {
 }
 
 const styles = StyleSheet.create({
-  wrapper:{
+  wrapper: {
     flex: 1,
-    padding: 10
+    padding: 10,
   },
-  langPicker:{
+  langPicker: {
     width: '100%',
     height: 50,
     borderWidth: 1,
@@ -57,5 +58,10 @@ const styles = StyleSheet.create({
     color: '#3498db',
     borderColor: '#3498db',
     borderRadius: 10,
-  }
-})
+  },
+});
+
+const mapStateToProps = function (state) {
+  return {language: state.language};
+};
+export default connect(mapStateToProps, actionCreators)(Language);

@@ -1,19 +1,19 @@
 import React, {Component} from 'react';
 import {View, StyleSheet, TouchableOpacity} from 'react-native';
 import {ListItem} from 'react-native-elements';
+import {connect} from 'react-redux'
+import { actionCreators } from '../redux/actions/actionCreators';
 import LANG from '../language/language';
 
-const language = 'english'
-
-export default class Setting extends Component {
+class Setting extends Component {
   gotoLanguage(){
     const {navigation} = this.props
     navigation.navigate('Language')
   }
-  gotoContact(){
-    const {navigation} = this.props
-    navigation.navigate('Contact')
-  }
+  // gotoContact(){
+  //   const {navigation} = this.props
+  //   navigation.navigate('Contact')
+  // }
   gotoAbout(){
     const {navigation} = this.props
     navigation.navigate('About')
@@ -24,25 +24,25 @@ export default class Setting extends Component {
         <TouchableOpacity onPress={()=>this.gotoLanguage()}>
           <ListItem
             key={1}
-            title={LANG[language].setting_language}
+            title={LANG[this.props.language].setting_language}
             leftIcon={{name: 'language'}}
             bottomDivider
             chevron
           />
         </TouchableOpacity>
-        <TouchableOpacity onPress={()=>this.gotoContact()}>
+        {/* <TouchableOpacity onPress={()=>this.gotoContact()}>
           <ListItem
             key={2}
-            title={LANG[language].setting_contact}
+            title={LANG[this.props.language].setting_contact}
             leftIcon={{name: 'contacts'}}
             bottomDivider
             chevron
           />
-        </TouchableOpacity>
+        </TouchableOpacity> */}
         <TouchableOpacity onPress={()=>this.gotoAbout()}>
           <ListItem
             key={3}
-            title={LANG[language].setting_about}
+            title={LANG[this.props.language].setting_about}
             leftIcon={{name: 'copyright'}}
             bottomDivider
             chevron
@@ -58,3 +58,10 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 });
+
+
+const mapStateToProps = function (state) {
+  return {language: state.language};
+};
+
+export default connect(mapStateToProps, actionCreators)(Setting)

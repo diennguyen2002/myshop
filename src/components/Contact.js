@@ -2,11 +2,11 @@ import React, {Component} from 'react';
 import {View} from 'react-native';
 import HeaderCom from './HeaderCom';
 import HeaderBtn from './HeaderBtn';
+import {connect} from 'react-redux'
+import {actionCreators} from '../redux/actions/actionCreators'
 import LANG from '../language/language';
 
-const language = 'english'
-
-export default class Contact extends Component {
+class Contact extends Component {
   goback() {
     const {navigation} = this.props;
     navigation.navigate('Main');
@@ -15,7 +15,7 @@ export default class Contact extends Component {
     return (
       <View style={{flex: 1}}>
         <HeaderCom
-          title={LANG[language].contact_header}
+          title={LANG[this.props.language].contact_header}
           rightIcon={null}
           leftIcon={
             <HeaderBtn
@@ -28,3 +28,8 @@ export default class Contact extends Component {
     );
   }
 }
+
+const mapStateToProps = function(state){
+  return {language: state.language}
+}
+export default connect(mapStateToProps, actionCreators)(Contact)
