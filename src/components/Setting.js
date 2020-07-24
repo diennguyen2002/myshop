@@ -23,6 +23,8 @@ class Setting extends Component {
       <View style={styles.wrapper}>
         <TouchableOpacity onPress={()=>this.gotoLanguage()}>
           <ListItem
+            titleStyle={styles.titleStyle}
+            containerStyle={styles.containerStyle}
             key={1}
             title={LANG[this.props.language].setting_language}
             leftIcon={{name: 'language'}}
@@ -41,6 +43,8 @@ class Setting extends Component {
         </TouchableOpacity> */}
         <TouchableOpacity onPress={()=>this.gotoAbout()}>
           <ListItem
+            titleStyle={styles.titleStyle}
+            containerStyle={styles.containerStyle}
             key={3}
             title={LANG[this.props.language].setting_about}
             leftIcon={{name: 'copyright'}}
@@ -57,6 +61,12 @@ const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
   },
+  titleStyle:{
+    color: '#3498db',
+  },
+  containerStyle:{
+    borderBottomColor: '#3498db'
+  }
 });
 
 
