@@ -3,7 +3,9 @@ import {SearchBar} from 'react-native-elements';
 import {StyleSheet, TouchableOpacity, Text, View} from 'react-native';
 import {connect} from 'react-redux'
 import { actionCreators } from '../redux/actions/actionCreators';
+import LANG from '../language/language';
 
+const language = 'english'
 class Search extends Component {
   state = {
     search: '',
@@ -25,7 +27,7 @@ class Search extends Component {
           containerStyle={styles.containerStyle}
           inputContainerStyle={styles.inputContainerStyle}
           lightTheme={true}
-          placeholder="Bạn muốn mua gì?"
+          placeholder={LANG[language].product_search_placeholder}
           onChangeText={this.updateSearch}
           value={this.state.search}
         />
@@ -33,7 +35,7 @@ class Search extends Component {
           <TouchableOpacity
             style={styles.buttonSearch}
             onPress={this.clickSearch}>
-            <Text style={styles.textSearch}>Tìm</Text>
+            <Text style={styles.textSearch}>{LANG[language].product_search_btn}</Text>
           </TouchableOpacity>
         </View>
       </>

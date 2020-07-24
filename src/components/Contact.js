@@ -1,7 +1,10 @@
 import React, {Component} from 'react';
-import {Text, View} from 'react-native';
+import {View} from 'react-native';
 import HeaderCom from './HeaderCom';
 import HeaderBtn from './HeaderBtn';
+import LANG from '../language/language';
+
+const language = 'english'
 
 export default class Contact extends Component {
   goback() {
@@ -10,9 +13,9 @@ export default class Contact extends Component {
   }
   render() {
     return (
-      <View style={{flex: 1, backgroundColor: 'green'}}>
+      <View style={{flex: 1}}>
         <HeaderCom
-          title="Liên hệ"
+          title={LANG[language].contact_header}
           rightIcon={null}
           leftIcon={
             <HeaderBtn
@@ -21,7 +24,6 @@ export default class Contact extends Component {
             />
           }
         />
-        <Text> Contact </Text>
       </View>
     );
   }

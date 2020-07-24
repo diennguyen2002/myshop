@@ -10,13 +10,15 @@ import HeaderBtn from './HeaderBtn';
 import {connect} from 'react-redux'
 import {actionCreators} from '../redux/actions/actionCreators'
 import ImagesConst from '../constants/ImagesConst'
+import LANG from '../language/language';
 
+const language = 'english'
 class BottomTabBar extends Component {
   constructor(props) {
     super(props);
     this.state = {
       selectedTab: 'home',
-      title: 'Trang chủ',
+      title: LANG[language].home_header,
     };
   }
 
@@ -25,7 +27,7 @@ class BottomTabBar extends Component {
     navigation.navigate('Login');
   };
 
-  goHome = () => this.setState({selectedTab: 'home', title: 'Trang chủ'});
+  goHome = () => this.setState({selectedTab: 'home', title: LANG[language].home_header});
 
   componentDidMount(){
     this.props.fetchCart()
@@ -49,7 +51,7 @@ class BottomTabBar extends Component {
         <TabNavigator>
           <TabNavigator.Item
             selected={this.state.selectedTab === 'home'}
-            title="Trang chủ"
+            title={LANG[language].home_tab}
             titleStyle={styles.titleTab}
             renderIcon={() => (
               <Image source={ImagesConst.homeBlack} />
@@ -58,13 +60,13 @@ class BottomTabBar extends Component {
               <Image source={ImagesConst.homeSelect} />
             )}
             onPress={() =>
-              this.setState({selectedTab: 'home', title: 'Trang chủ'})
+              this.setState({selectedTab: 'home', title: LANG[language].home_header})
             }>
             <Home />
           </TabNavigator.Item>
           <TabNavigator.Item
             selected={this.state.selectedTab === 'product'}
-            title="Sản phẩm"
+            title={LANG[language].product_tab}
             titleStyle={styles.titleTab}
             renderIcon={() => (
               <Image source={ImagesConst.listBlack} />
@@ -73,13 +75,13 @@ class BottomTabBar extends Component {
               <Image source={ImagesConst.listSelect} />
             )}
             onPress={() =>
-              this.setState({selectedTab: 'product', title: 'Sản phẩm'})
+              this.setState({selectedTab: 'product', title: LANG[language].product_header})
             }>
             <ListProduct />
           </TabNavigator.Item>
           <TabNavigator.Item
             selected={this.state.selectedTab === 'cart'}
-            title="Giỏ hàng"
+            title={LANG[language].cart_tab}
             titleStyle={styles.titleTab}
             renderIcon={() => (
               <Image source={ImagesConst.cartBlack} />
@@ -89,13 +91,13 @@ class BottomTabBar extends Component {
             )}
             badgeText={this.props.cart.quantity}
             onPress={() =>
-              this.setState({selectedTab: 'cart', title: 'Giỏ hàng'})
+              this.setState({selectedTab: 'cart', title: LANG[language].cart_header})
             }>
             <Cart />
           </TabNavigator.Item>
           <TabNavigator.Item
             selected={this.state.selectedTab === 'setting'}
-            title="Cài đặt"
+            title={LANG[language].setting_tab}
             titleStyle={styles.titleTab}
             renderIcon={() => (
               <Image
@@ -108,7 +110,7 @@ class BottomTabBar extends Component {
               />
             )}
             onPress={() =>
-              this.setState({selectedTab: 'setting', title: 'Cài đặt'})
+              this.setState({selectedTab: 'setting', title: LANG[language].setting_header})
             }>
             <Setting navigation={this.props.navigation}/>
           </TabNavigator.Item>

@@ -2,6 +2,9 @@ import {actionTypes} from './actionTypes';
 import AsyncStorage from '@react-native-community/async-storage';
 import AppConfig from '../../constants/config';
 import Helper from '../../helper/Helper';
+import LANG from '../../language/language';
+
+const language = 'english'
 
 function fetchList(page = '') {
   return (dispatch) => {
@@ -51,15 +54,15 @@ function fetchTopList() {
       .then((json) => {
         const topList = [
           {
-            title: 'Bán nhiều nhất',
+            title: LANG[language].home_top_best_seller,
             data: json[0]['products'],
           },
           {
-            title: 'Mới nhất',
+            title: LANG[language].home_top_newest,
             data: json[1]['products'],
           },
           {
-            title: 'Được yêu thích nhất',
+            title: LANG[language].home_top_love,
             data: json[2]['products'],
           },
         ];

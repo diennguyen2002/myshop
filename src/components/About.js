@@ -2,7 +2,9 @@ import React, {Component} from 'react';
 import {Text, View, StyleSheet, TouchableOpacity} from 'react-native';
 import HeaderCom from './HeaderCom';
 import HeaderBtn from './HeaderBtn';
+import LANG from '../language/language';
 
+const language = 'english'
 
 export default class About extends Component {
   goback() {
@@ -13,7 +15,7 @@ export default class About extends Component {
     return (
       <>
         <HeaderCom
-          title="Giới thiệu"
+          title={LANG[language].about_header}
           rightIcon={null}
           leftIcon={
             <HeaderBtn
@@ -24,14 +26,14 @@ export default class About extends Component {
         />
         <View style={styles.wrapper}>
           <View style={styles.aboutContainer}>
-            <Text style={styles.aboutTitleText}>Đồ án khóa học React Native - 18/05/2020</Text>
-            <Text style={styles.aboutText}>Ứng dụng bán điện thoại di động</Text>
-            <Text style={styles.aboutText}>Học viên: Nguyễn Võ Thế Điền</Text>
-            <Text style={styles.aboutText}>Email: dienngyen2002@yahoo.com</Text>
-            <Text style={styles.aboutText}>Điện thoại: 0918.070600</Text>
+            <Text style={styles.aboutTitleText}>{LANG[language].about_title}</Text>
+            <Text style={styles.aboutText}>{LANG[language].about_text_app_name}</Text>
+            <Text style={styles.aboutText}>{LANG[language].about_student_name}</Text>
+            <Text style={styles.aboutText}>{LANG[language].about_student_email}</Text>
+            <Text style={styles.aboutText}>{LANG[language].about_student_phone}</Text>
           </View>
           <TouchableOpacity onPress={()=>this.goback()} style={styles.btnContainer}>
-              <Text style={styles.txtBtn}>Đóng</Text>
+              <Text style={styles.txtBtn}>{LANG[language].about_close_btn}</Text>
             </TouchableOpacity>
         </View>
       </>

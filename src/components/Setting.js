@@ -1,6 +1,9 @@
 import React, {Component} from 'react';
 import {View, StyleSheet, TouchableOpacity} from 'react-native';
 import {ListItem} from 'react-native-elements';
+import LANG from '../language/language';
+
+const language = 'english'
 
 export default class Setting extends Component {
   gotoLanguage(){
@@ -21,7 +24,7 @@ export default class Setting extends Component {
         <TouchableOpacity onPress={()=>this.gotoLanguage()}>
           <ListItem
             key={1}
-            title='Ngôn ngữ'
+            title={LANG[language].setting_language}
             leftIcon={{name: 'language'}}
             bottomDivider
             chevron
@@ -30,7 +33,7 @@ export default class Setting extends Component {
         <TouchableOpacity onPress={()=>this.gotoContact()}>
           <ListItem
             key={2}
-            title='Liên hệ'
+            title={LANG[language].setting_contact}
             leftIcon={{name: 'contacts'}}
             bottomDivider
             chevron
@@ -39,7 +42,7 @@ export default class Setting extends Component {
         <TouchableOpacity onPress={()=>this.gotoAbout()}>
           <ListItem
             key={3}
-            title='Giới thiệu'
+            title={LANG[language].setting_about}
             leftIcon={{name: 'copyright'}}
             bottomDivider
             chevron

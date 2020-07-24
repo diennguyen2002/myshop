@@ -13,6 +13,9 @@ import AppConfig from '../constants/config';
 import {connect} from 'react-redux'
 import {actionCreators} from '../redux/actions/actionCreators';
 import Helper from '../helper/Helper'
+import LANG from '../language/language';
+
+const language = 'english'
 
 const NumberCom = ({quantity, updateQuantityItem, id}) => {
   const [qty, setQuantity] = useState(quantity);
@@ -84,7 +87,7 @@ class Cart extends Component {
     return (
       <View style={styles.container}>
         { this.props.cart.quantity == 0 ? (
-          <Text style={styles.notSeclectItemText}>Bạn chưa chọn sản phẩm nào</Text>
+          <Text style={styles.notSeclectItemText}>{LANG[language].cart_empty}</Text>
         ) : null}
         <View style={styles.cartListContainer}>
           <View>
@@ -96,7 +99,7 @@ class Cart extends Component {
           </View>
           { this.props.cart.quantity > 0 ? (
             <View>
-              <Text style={styles.amountText}>Thành tiền: { this.props.cart.amount}</Text>
+              <Text style={styles.amountText}>{LANG[language].cart_amount}: { this.props.cart.amount}</Text>
             </View>
           ) : null}
         </View>
@@ -104,8 +107,8 @@ class Cart extends Component {
           <View style={styles.amountContainer}>
             <TouchableOpacity
               style={styles.paymentBtn}
-              onPress={() => alert('Chức năng này chưa hoàn thành')}>
-              <Text style={styles.paymentText}>Thanh toán</Text>
+              onPress={() => alert(LANG[language].cart_func_not_complete)}>
+              <Text style={styles.paymentText}>{LANG[language].cart_payment_btn}</Text>
             </TouchableOpacity>
           </View>
         ) : null}

@@ -13,7 +13,9 @@ import HeaderBtn from './HeaderBtn';
 import {connect} from 'react-redux';
 import {actionCreators} from '../redux/actions/actionCreators';
 import ImagesConst from '../constants/ImagesConst';
+import LANG from '../language/language';
 
+const language = 'english'
 class Login extends Component {
   constructor(props) {
     super(props);
@@ -39,7 +41,7 @@ class Login extends Component {
     return (
       <View style={styles.wrapper}>
         <HeaderCom
-          title="Đăng nhập"
+          title={LANG[language].login_header}
           rightIcon={null}
           leftIcon={
             <HeaderBtn
@@ -51,34 +53,34 @@ class Login extends Component {
         <View style={styles.loginContainer}>
           {this.props.token !== '' ? (
             <>
-              <Text style={styles.textLogin}>Đăng nhập thành công</Text>
+              <Text style={styles.textLogin}>{LANG[language].login_success_title}</Text>
               <Image source={ImagesConst.profile} style={styles.profile} />
               <TouchableOpacity
                 onPress={() => this.logout()}
                 style={styles.btnContainer}>
-                <Text style={styles.txtBtn}>Đăng xuất</Text>
+                <Text style={styles.txtBtn}>{LANG[language].logout_btn}</Text>
               </TouchableOpacity>
             </>
           ) : (
             <>
-              <Text style={styles.textLogin}>Thông tin đăng nhập</Text>
+              <Text style={styles.textLogin}>{LANG[language].login_form_title}</Text>
               <TextInput
                 style={styles.textInput}
                 onChangeText={(text) => this.setState({txtUser: text})}
                 value={this.state.txtUser}
-                placeholder="Tên đăng nhập"
+                placeholder={LANG[language].login_form_username}
               />
               <TextInput
                 style={styles.textInput}
                 onChangeText={(text) => this.setState({txtPass: text})}
                 value={this.state.txtPass}
-                placeholder="Mật khẩu"
+                placeholder={LANG[language].login_form_password}
                 secureTextEntry={true}
               />
               <TouchableOpacity
                 onPress={() => this.login()}
                 style={styles.btnContainer}>
-                <Text style={styles.txtBtn}>Đăng nhập</Text>
+                <Text style={styles.txtBtn}>{LANG[language].login_btn}</Text>
               </TouchableOpacity>
             </>
           )}

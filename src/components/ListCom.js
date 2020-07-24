@@ -12,6 +12,9 @@ import {connect} from 'react-redux';
 import {actionCreators} from '../redux/actions/actionCreators';
 import AppConfig from '../constants/config';
 import Helper from '../helper/Helper';
+import LANG from '../language/language';
+
+const language = 'english'
 
 const Item = ({item, addCart}) => {
   return (
@@ -28,7 +31,7 @@ const Item = ({item, addCart}) => {
         <Text style={styles.desName}>{item.name}</Text>
         <Text style={styles.desPrice}>{Helper.formatMoney(item.price)}</Text>
         <TouchableOpacity style={styles.cartBtn} onPress={() => addCart(item)}>
-          <Text style={styles.cartText}>Chọn mua</Text>
+          <Text style={styles.cartText}>{LANG[language].product_select_btn}</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -67,7 +70,7 @@ class ListCom extends Component {
         }
       }
       this.props.putCart(cart);
-      alert('Đã thêm vào giỏ hàng');
+      alert(LANG[language].product_add_cart_alert);
     } catch (e) {
       console.log(e);
     }
