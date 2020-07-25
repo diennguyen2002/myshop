@@ -27,11 +27,25 @@ class BottomTabBar extends Component {
 
   goHome = () => this.setState({selectedTab: 'home', title: LANG[this.props.language].home_header});
 
+  showHeaderTitle(){
+    let title = ''
+    if(this.state.selectedTab === 'home') {
+      title = LANG[this.props.language].home_tab
+    } else if(this.state.selectedTab === 'product') {
+      title = LANG[this.props.language].product_tab
+    } else if(this.state.selectedTab === 'cart') {
+      title = LANG[this.props.language].cart_tab
+    } else if(this.state.selectedTab === 'setting') {
+      title = LANG[this.props.language].setting_tab
+    }
+    return title;
+  }
+
   render() {
     return (
       <>
         <HeaderCom
-          title={this.state.title}
+          title={this.showHeaderTitle()}
           leftIcon={null}
           rightIcon={
             <HeaderBtn

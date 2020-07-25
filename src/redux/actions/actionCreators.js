@@ -4,8 +4,6 @@ import AppConfig from '../../constants/config';
 import Helper from '../../helper/Helper';
 import LANG from '../../language/language';
 
-const language = 'english';
-
 function fetchList(page = '') {
   return (dispatch) => {
     dispatch({type: actionTypes.PUT_LOADING, isLoading: true});
@@ -51,7 +49,9 @@ function fetchTopList() {
       fetch(AppConfig.HOST + '/list/1').then((response) => response.json()),
       fetch(AppConfig.HOST + '/list/2').then((response) => response.json()),
     ])
-      .then((json) => {
+      .then( async (json) => {
+        let language = await get_key('@lang_key');
+        language = language ? language : 'vietnamese';
         const topList = [
           {
             title: LANG[language].home_top_best_seller,
@@ -224,8 +224,8 @@ function putLogout() {
 function fetchLanguage() {
   return async (dispatch) => {
     let language = await get_key('@lang_key');
-    console.log('fetch Lang')
-    console.log(language)
+    ///console.log('fetch Lang')
+    //console.log(language)
     language = language  ? language : 'vietnamese';
     dispatch({type: actionTypes.FETCH_LANGUAGE, language});
   };

@@ -34,6 +34,7 @@ class Language extends Component {
             onValueChange={(itemValue) => {
               this.setState({selectedValue: itemValue});
               this.props.putLanguage(itemValue)
+              this.props.fetchTopList();
             }}>
             <Picker.Item label="Tiếng Việt" value="vietnamese" />
             <Picker.Item label="English" value="english" />
